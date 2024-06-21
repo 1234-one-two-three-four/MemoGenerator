@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoGenerator", "MemoGenerator\MemoGenerator.csproj", "{2B085A2D-7F01-47AC-9667-527B1DF9F536}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FE2974FF-A166-4379-8FE7-B7BB6B93A862}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Debug|ARM64.Build.0 = Debug|ARM64
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Debug|x64.ActiveCfg = Debug|x64
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Debug|x64.Build.0 = Debug|x64
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Debug|x64.Deploy.0 = Debug|x64
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Debug|x86.ActiveCfg = Debug|x86
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Debug|x86.Build.0 = Debug|x86
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Debug|x86.Deploy.0 = Debug|x86
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Release|ARM64.ActiveCfg = Release|ARM64
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Release|ARM64.Build.0 = Release|ARM64
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Release|ARM64.Deploy.0 = Release|ARM64
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Release|x64.ActiveCfg = Release|x64
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Release|x64.Build.0 = Release|x64
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Release|x64.Deploy.0 = Release|x64
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Release|x86.ActiveCfg = Release|x86
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Release|x86.Build.0 = Release|x86
+		{2B085A2D-7F01-47AC-9667-527B1DF9F536}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {81D490D5-08DB-4967-83D3-6E89D0D5543C}
+	EndGlobalSection
+EndGlobal

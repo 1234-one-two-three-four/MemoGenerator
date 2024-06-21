@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MemoGenerator (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "MemoGenerator (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

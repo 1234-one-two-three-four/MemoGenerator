@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="MemoGenerator.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MemoGenerator"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Margin="20">
+            <TextBox x:Name="memoTextBox" Text="" Foreground="Black" Background="Beige" VerticalAlignment="Center" 
+                     FontSize="16" FontFamily="맑은 고딕" Margin="10" Width="700" IsReadOnly="True"></TextBox>
+            <Button x:Name="copyButton" Click="copyButton_Click" Background="LightSteelBlue">복사</Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Spacing="30">
+            <StackPanel Orientation="Vertical" Width="220" Padding="10"
+                        BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
+                <TextBox x:Name="dateTextBox" Width="100" Header="날짜" PlaceholderText="240619" PlaceholderForeground="LightGray" 
+                         HorizontalAlignment="Left" Margin="4" 
+                         TextChanged="updateIdentifyingComponent"></TextBox>
+                <TextBox x:Name="amountTextBox" Width="180" Header="금액" PlaceholderText="금액을 입력하세요." PlaceholderForeground="LightGray"
+                         HorizontalAlignment="Left" Margin="4"
+                         TextChanged="updateIdentifyingComponent"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Padding="10"
+                        BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
+                <TextBox x:Name="invoiceDateTextBox" Width="100" Header="발행일자" PlaceholderText="0619" PlaceholderForeground="LightGray"
+                         HorizontalAlignment="Left" Margin="4" 
+                         TextChanged="updatePaymentProofMethodComponent"></TextBox>
+                <CheckBox x:Name="taxInvoiceCheckBox" Content="세금계산서" 
+                          Click="updatePaymentProofMethodComponent"/>
+                <CheckBox x:Name="transactionStatementCheckBox" Content="거래명세서" 
+                          Click="updatePaymentProofMethodComponent"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Padding="10"
+                        BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
+                <TextBlock Text="서류 발송 경로" Margin="10" FontWeight="Bold"></TextBlock>
+                <CheckBox x:Name="sendingEmailCheckBox" Content="메일"
+                          Click="updateDocumentsDeliveryRouteComponent"/>
+                <CheckBox x:Name="sendingRegisteredCheckBox" Content="등기" 
+                          Click="updateDocumentsDeliveryRouteComponent"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Padding="10"
+            BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
+                <TextBox x:Name="emailTextBox" Width="200" Header="이메일" PlaceholderText="example@email.com" PlaceholderForeground="LightGray"
+                         HorizontalAlignment="Left" Margin="4" 
+                         TextChanged="updateEmailComponent"></TextBox>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</Window>
