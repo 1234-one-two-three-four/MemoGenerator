@@ -33,6 +33,9 @@
                           Click="updatePaymentProofMethodComponent"/>
                 <CheckBox x:Name="transactionStatementCheckBox" Content="거래명세서" 
                           Click="updatePaymentProofMethodComponent"/>
+                <TextBlock Text="사업자" Margin="10" FontWeight="Bold"></TextBlock>
+                <CheckBox x:Name="companyCheckBox" Content="대미기프트" 
+                          Click="updatePaymentProofMethodComponent"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Padding="10"
                         BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
@@ -44,7 +47,7 @@
             </StackPanel>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Padding="10"
             BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
-                <TextBox x:Name="emailTextBox" Width="200" Header="이메일" PlaceholderText="example@email.com" PlaceholderForeground="LightGray"
+                <TextBox x:Name="emailTextBox" Width="200" Header="발송 이메일" PlaceholderText="example@email.com" PlaceholderForeground="LightGray"
                          HorizontalAlignment="Left" Margin="4" 
                          TextChanged="updateEmailComponent"></TextBox>
             </StackPanel>

@@ -42,7 +42,7 @@ namespace MemoGenerator
             var appWindow = WindowUtil.GetAppWindow(this);
             appWindow.Title = "일이삼사";
             WindowUtil.CenterToScreen(this);
-            appWindow.Resize(new SizeInt32 { Width = 900, Height = 350 }); // 창 크기
+            appWindow.Resize(new SizeInt32 { Width = 900, Height = 450 }); // 창 크기
             ((OverlappedPresenter)appWindow.Presenter).IsAlwaysOnTop = false;
             ((OverlappedPresenter)appWindow.Presenter).IsMaximizable = false; // 최대화 가능 여부
             ((OverlappedPresenter)appWindow.Presenter).IsResizable = false;
@@ -97,7 +97,12 @@ namespace MemoGenerator
         {
             // 함께사는 세상 옵션 추가
             // 분할 발행 기능
-            // 다른 사업자 기능
+
+            string companyName = "";
+            if (companyCheckBox.IsChecked == true)
+            {
+                companyName = " 대미";
+            }
 
             var invoiceDate = "";
             if (DateTime.TryParseExact(invoiceDateTextBox.Text, "MMdd", null, System.Globalization.DateTimeStyles.None, out var date))
@@ -107,15 +112,15 @@ namespace MemoGenerator
 
             if (taxInvoiceCheckBox.IsChecked == true && transactionStatementCheckBox.IsChecked == true)
             {
-                paymentProofMethodComponent = "-[" + invoiceDate + " 자 계산서/명세서 발행]";
+                paymentProofMethodComponent = "-[" + invoiceDate + " 자" + companyName + " 계산서 /명세서 발행]";
             }
             else if (taxInvoiceCheckBox.IsChecked == true)
             {
-                paymentProofMethodComponent = "-[" + invoiceDate + " 자 계산서 발행]";
+                paymentProofMethodComponent = "-[" + invoiceDate + " 자" + companyName + " 계산서 발행]";
             }
             else if (transactionStatementCheckBox.IsChecked == true)
             {
-                paymentProofMethodComponent = "-[" + invoiceDate + " 자 명세서 발행]";
+                paymentProofMethodComponent = "-[" + invoiceDate + " 자" + companyName + " 명세서 발행]";
             }
             else
             {
