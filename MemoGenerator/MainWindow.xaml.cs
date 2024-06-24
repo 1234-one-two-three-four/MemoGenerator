@@ -112,7 +112,7 @@ namespace MemoGenerator
 
             if (taxInvoiceCheckBox.IsChecked == true && transactionStatementCheckBox.IsChecked == true)
             {
-                paymentProofMethodComponent = "-[" + invoiceDate + " 자" + companyName + " 계산서 /명세서 발행]";
+                paymentProofMethodComponent = "-[" + invoiceDate + " 자" + companyName + " 계산서/명세서 발행]";
             }
             else if (taxInvoiceCheckBox.IsChecked == true)
             {
