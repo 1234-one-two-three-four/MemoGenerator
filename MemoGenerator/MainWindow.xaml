@@ -10,7 +10,7 @@
 
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
         <StackPanel Orientation="Horizontal" Margin="20">
-            <TextBox x:Name="memoTextBox" Text="" Foreground="Black" Background="Beige" VerticalAlignment="Center" 
+            <TextBox x:Name="memoTextBox" Text="" Foreground="Black" Background="Beige" VerticalAlignment="Center"
                      FontSize="16" FontFamily="맑은 고딕" Margin="10" Width="700" IsReadOnly="True"></TextBox>
             <Button x:Name="copyButton" Click="copyButton_Click" Background="LightSteelBlue">복사</Button>
         </StackPanel>
