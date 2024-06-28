@@ -28,6 +28,9 @@ namespace MemoGenerator
         {
             this.InitializeComponent();
 
+            dateErrorTextBox.Visibility = Visibility.Collapsed;
+            invoiceDateErrorTextBox.Visibility = Visibility.Collapsed;
+
             var appWindow = WindowUtil.GetAppWindow(this);
             appWindow.Title = "일이삼사";
             WindowUtil.CenterToScreen(this);
@@ -55,10 +58,10 @@ namespace MemoGenerator
 
         private void updateIdentifyingComponent(object sender, TextChangedEventArgs e)
         {
-            // 날짜 형식 오류 메시지
-
             string dateText = "";
             DateTime date;
+            dateErrorTextBox.Visibility = Visibility.Collapsed;
+
             if (DateTime.TryParseExact(dateTextBox.Text, "yyMMdd", null, System.Globalization.DateTimeStyles.None, out date))
             {
                 dateText = date.ToString("yy'/'MM'/'dd");
@@ -66,6 +69,10 @@ namespace MemoGenerator
             else if (DateTime.TryParseExact(dateTextBox.Text, "MMdd", null, System.Globalization.DateTimeStyles.None, out date))
             {
                 dateText = date.ToString("MM'/'dd");
+            }
+            else
+            {
+                dateErrorTextBox.Visibility = Visibility.Visible;
             }
 
             string amountText = "";
@@ -90,6 +97,8 @@ namespace MemoGenerator
             // 분할 발행 기능
 
             string companyName = "";
+            invoiceDateErrorTextBox.Visibility = Visibility.Collapsed;
+
             if (companyCheckBox.IsChecked == true)
             {
                 companyName = " 대미";
@@ -99,6 +108,10 @@ namespace MemoGenerator
             if (DateTime.TryParseExact(invoiceDateTextBox.Text, "MMdd", null, System.Globalization.DateTimeStyles.None, out var date))
             {
                 invoiceDate = date.ToString("MM'/'dd");
+            } 
+            else
+            {
+                invoiceDateErrorTextBox.Visibility = Visibility.Visible;
             }
 
             if (taxInvoiceCheckBox.IsChecked == true && transactionStatementCheckBox.IsChecked == true)
