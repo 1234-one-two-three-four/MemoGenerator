@@ -8,31 +8,22 @@ on:
     # branches: [ "main" ]
 
 jobs:
-  update_release_draft:
-    permissions:
-      # write permission is required to create a github release
-      contents: write
-      # write permission is required for autolabeler
-      # otherwise, read permission is required at least
-      pull-requests: write
+  create_new_release:
+    name: Create new release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      # (Optional) GitHub Enterprise requires GHE_HOST variable set
-      #- name: Set GHE_HOST
-      #  run: |
-      #    echo "GHE_HOST=${GITHUB_SERVER_URL##https:\/\/}" >> $GITHUB_ENV
-
-      # Drafts your next Release notes as Pull Requests are merged into "master"
-      - uses: release-drafter/release-drafter@v6
-        # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
-        # with:
-        #   config-name: my-config.yml
-        #   disable-autolabeler: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - run: echo "Release for tag ${CURRENT_TAG}"
+    - uses: actions/checkout@v3
+    - name: Create Release
+      uses: ncipollo/release-action@v1.14.0
+      with:
+        draft: true
+        tag: ${{ github.ref_name }}
 
   build_and_upload:
-    needs: update_release_draft
+    needs: create_new_release
     strategy:
       matrix:
         configuration: [Release]
@@ -76,7 +67,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ needs.update_release_draft.outputs.upload_url }}
+        upload_url: ${{ needs.create_new_release.outputs.upload_url }}
         asset_path: MemoGenerator/bin/x64/Release/net6.0-windows10.0.18362.0/MemoGenerator-${{ github.ref_name }}.zip
         asset_name: MemoGenerator-${{ github.ref_name }}.zip
         asset_content_type: application/zip
