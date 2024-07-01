@@ -7,14 +7,14 @@ on:
   pull_request:
     # branches: [ "main" ]
 
+env:
+  CONFIGURATION: Release
+  PLATFORM: x64
+
 jobs:
-  build_and_create_release:
+  build:
     permissions:
       contents: write
-    strategy:
-      matrix:
-        configuration: [Release]
-        platform: [x64]
     runs-on: windows-latest
     env:
       Solution_Name: MemoGenerator.sln
@@ -37,33 +37,54 @@ jobs:
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }}
+      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=${{ env.CONFIGURATION }} /p:Platform=${{ env.PLATFORM }}
 
     - name: Build
-      run: msbuild $env:Solution_Name /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }}
+      run: msbuild $env:Solution_Name /p:Configuration=${{ env.CONFIGURATION }} /p:Platform=${{ env.PLATFORM }}
+
+    - name: Archive
+      run: |
+        cd MemoGenerator/bin/${{ env.PLATFORM }}/Release
+        tar -c -f MemoGenerator-${{ github.ref_name }}-${{ env.PLATFORM }}.zip net6.0-windows10.0.18362.0
 
     # - name: Upload artifact
     #   id: upload-artifact
     #   uses: actions/upload-artifact@v4
     #   with:
     #     # Name of the artifact to upload.
-    #     name: MemoGenerator-${{ github.ref_name }}-${{ matrix.platform }}
+    #     name: MemoGenerator-${{ github.ref_name }}-${{ env.PLATFORM }}
     
     #     # A file, directory or wildcard pattern that describes what to upload
-    #     path: MemoGenerator/bin/${{ matrix.platform }}/Release/net6.0-windows10.0.18362.0/**
-
-    - name: Archive
-      run: |
-        cd MemoGenerator/bin/x64/Release
-        tar -c -f MemoGenerator-${{ github.ref_name }}-${{ matrix.platform }}.zip net6.0-windows10.0.18362.0
+    #     path: MemoGenerator/bin/${{ env.PLATFORM }}/Release/net6.0-windows10.0.18362.0/**
 
     - name: Debug
-      run: |
-        dir
-        dir MemoGenerator\bin\x64\Release
+      run: dir
 
     - name: Create release
       uses: softprops/action-gh-release@v2
       with:
-        files: MemoGenerator/bin/x64/Release/MemoGenerator-${{ github.ref_name }}-${{ matrix.platform }}.zip
+        files: MemoGenerator/bin/${{ env.PLATFORM }}/Release/MemoGenerator-${{ github.ref_name }}-${{ env.PLATFORM }}.zip
         draft: true
+
+  # create_release:
+  #   needs: build
+  #   permissions:
+  #     contents: write
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/download-artifact@v4
+  #     id: download-artifact
+  #     with:
+  #       # Name of the artifact to download.
+  #       # If unspecified, all artifacts for the run are downloaded.
+  #       # Optional.
+  #       name: MemoGenerator-${{ github.ref_name }}-${{ env.PLATFORM }}
+
+  #   - name: Debug
+  #     run: dir ${{ steps.download-artifact.outputs.download-path }}
+
+  #   - name: Create release
+  #     uses: softprops/action-gh-release@v2
+  #     with:
+  #       files: ${{ steps.download-artifact.outputs.download-path }}/MemoGenerator-${{ github.ref_name }}-${{ env.PLATFORM }}.zip
+  #       draft: true

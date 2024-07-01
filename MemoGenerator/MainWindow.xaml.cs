@@ -32,14 +32,14 @@ namespace MemoGenerator
             invoiceDateErrorTextBox.Visibility = Visibility.Collapsed;
 
             var appWindow = WindowUtil.GetAppWindow(this);
-            appWindow.Title = "ÀÏÀÌ»ï»ç";
+            appWindow.Title = "ì¼ì´ì‚¼ì‚¬";
             WindowUtil.CenterToScreen(this);
-            appWindow.Resize(new SizeInt32 { Width = 900, Height = 450 }); // Ã¢ Å©±â
+            appWindow.Resize(new SizeInt32 { Width = 900, Height = 450 }); // ì°½ í¬ê¸°
             ((OverlappedPresenter)appWindow.Presenter).IsAlwaysOnTop = false;
-            ((OverlappedPresenter)appWindow.Presenter).IsMaximizable = false; // ÃÖ´ëÈ­ °¡´É ¿©ºÎ
+            ((OverlappedPresenter)appWindow.Presenter).IsMaximizable = false; // ìµœëŒ€í™” ê°€ëŠ¥ ì—¬ë¶€
             ((OverlappedPresenter)appWindow.Presenter).IsResizable = false;
-            //((OverlappedPresenter)appWindow.Presenter).Maximize(); // ½ÇÇà ½Ã Ã¢ÀÌ ÃÖ´ëÈ­ »óÅÂ·Î ³ªÅ¸³²
-            appWindow.SetPresenter(AppWindowPresenterKind.Default); // È­¸é ÇüÅÂ ¼³Á¤
+            //((OverlappedPresenter)appWindow.Presenter).Maximize(); // ì‹¤í–‰ ì‹œ ì°½ì´ ìµœëŒ€í™” ìƒíƒœë¡œ ë‚˜íƒ€ë‚¨
+            appWindow.SetPresenter(AppWindowPresenterKind.Default); // í™”ë©´ í˜•íƒœ ì„¤ì •
             
             this.AppWindow.SetIcon("C:\\Users\\y\\Desktop\\Visual Studio\\Projects\\MemoGenerator\\MemoGenerator\\Assets\\app-icon.ico");
         }
@@ -93,15 +93,15 @@ namespace MemoGenerator
 
         private void updatePaymentProofMethodComponent(object sender, RoutedEventArgs e)
         {
-            // ÇÔ²²»ç´Â ¼¼»ó ¿É¼Ç Ãß°¡
-            // ºĞÇÒ ¹ßÇà ±â´É
+            // í•¨ê»˜ì‚¬ëŠ” ì„¸ìƒ ì˜µì…˜ ì¶”ê°€
+            // ë¶„í•  ë°œí–‰ ê¸°ëŠ¥
 
             string companyName = "";
             invoiceDateErrorTextBox.Visibility = Visibility.Collapsed;
 
             if (companyCheckBox.IsChecked == true)
             {
-                companyName = " ´ë¹Ì";
+                companyName = " ëŒ€ë¯¸";
             }
 
             var invoiceDate = "";
@@ -116,15 +116,15 @@ namespace MemoGenerator
 
             if (taxInvoiceCheckBox.IsChecked == true && transactionStatementCheckBox.IsChecked == true)
             {
-                paymentProofMethodComponent = "-[" + invoiceDate + " ÀÚ" + companyName + " °è»ê¼­/¸í¼¼¼­ ¹ßÇà]";
+                paymentProofMethodComponent = "-[" + invoiceDate + " ì" + companyName + " ê³„ì‚°ì„œ/ëª…ì„¸ì„œ ë°œí–‰]";
             }
             else if (taxInvoiceCheckBox.IsChecked == true)
             {
-                paymentProofMethodComponent = "-[" + invoiceDate + " ÀÚ" + companyName + " °è»ê¼­ ¹ßÇà]";
+                paymentProofMethodComponent = "-[" + invoiceDate + " ì" + companyName + " ê³„ì‚°ì„œ ë°œí–‰]";
             }
             else if (transactionStatementCheckBox.IsChecked == true)
             {
-                paymentProofMethodComponent = "-[" + invoiceDate + " ÀÚ" + companyName + " ¸í¼¼¼­ ¹ßÇà]";
+                paymentProofMethodComponent = "-[" + invoiceDate + " ì" + companyName + " ëª…ì„¸ì„œ ë°œí–‰]";
             }
             else
             {
@@ -137,15 +137,15 @@ namespace MemoGenerator
         {
             if (sendingEmailCheckBox.IsChecked == true && sendingRegisteredCheckBox.IsChecked == true)
             {
-                documentsDeliveryRouteComponent = "-[¼­·ù(*) ¸ŞÀÏ/µî±â ¹ß¼Û]";
+                documentsDeliveryRouteComponent = "-[ì„œë¥˜(*) ë©”ì¼/ë“±ê¸° ë°œì†¡]";
             }
             else if (sendingEmailCheckBox.IsChecked == true)
             {
-                documentsDeliveryRouteComponent = "-[¼­·ù(*) ¸ŞÀÏ ¹ß¼Û]";
+                documentsDeliveryRouteComponent = "-[ì„œë¥˜(*) ë©”ì¼ ë°œì†¡]";
             }
             else if (sendingRegisteredCheckBox.IsChecked == true)
             {
-                documentsDeliveryRouteComponent = "-[¼­·ù(*) µî±â ¹ß¼Û]";
+                documentsDeliveryRouteComponent = "-[ì„œë¥˜(*) ë“±ê¸° ë°œì†¡]";
             }
             else
             {
