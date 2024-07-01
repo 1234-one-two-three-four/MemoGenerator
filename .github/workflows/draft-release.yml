@@ -8,6 +8,9 @@ on:
     # branches: [ "main" ]
 
 jobs:
+  build_and_upload:
+    needs: update_release_draft
+
   update_release_draft:
     permissions:
       # write permission is required to create a github release
@@ -75,7 +78,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ update_release_draft.outputs.upload_url }}
+        upload_url: ${{ needs.update_release_draft.outputs.upload_url }}
         asset_path: MemoGenerator/bin/x64/Release/net6.0-windows10.0.18362.0/MemoGenerator-${{ github.ref_name }}.zip
         asset_name: MemoGenerator-${{ github.ref_name }}.zip
         asset_content_type: application/zip
