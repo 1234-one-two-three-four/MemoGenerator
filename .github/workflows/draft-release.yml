@@ -23,9 +23,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Debug
-      run: type MemoGenerator\MainWindow.xaml.cs
-
     # Install the .NET Core workload
     - name: Install .NET Core
       uses: actions/setup-dotnet@v4
@@ -53,11 +50,6 @@ jobs:
         # A file, directory or wildcard pattern that describes what to upload
         path: MemoGenerator/bin/${{ env.PLATFORM }}/Release/net6.0-windows10.0.18362.0/**
 
-    # - name: Archive
-    #   run: |
-    #     cd MemoGenerator/bin/${{ env.PLATFORM }}/Release
-    #     tar -c -f MemoGenerator-${{ github.ref_name }}-${{ env.PLATFORM }}.zip net6.0-windows10.0.18362.0
-
   create_release:
     needs: build
     permissions:
@@ -72,8 +64,11 @@ jobs:
         # Optional.
         name: MemoGenerator-${{ github.ref_name }}-${{ env.PLATFORM }}
 
+    - name: Debug
+      run: dir ${{ steps.download-artifact.outputs.download-path }}
+
     - name: Create release
       uses: softprops/action-gh-release@v2
       with:
-        files: ${{ steps.download-artifact.outputs.download-path }}
+        files: ${{ steps.download-artifact.outputs.download-path }}/MemoGenerator-${{ github.ref_name }}-${{ env.PLATFORM }}.zip
         draft: true
