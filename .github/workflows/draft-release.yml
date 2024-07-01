@@ -42,16 +42,17 @@ jobs:
     - name: Build
       run: msbuild $env:Solution_Name /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }}
 
+    - name: Debug
+      run: dir MemoGenerator\bin\x64\Release\net6.0-windows10.0.18362.0
+
     - name: Upload artifact
       id: upload-artifact
       uses: actions/upload-artifact@v4
       with:
         # Name of the artifact to upload.
-        # Optional. Default is 'artifact'
         name: MemoGenerator-${{ github.ref_name }}-${{ matrix.platform }}
     
         # A file, directory or wildcard pattern that describes what to upload
-        # Required.
         path: MemoGenerator/bin/${{ matrix.platform }}/Release/net6.0-windows10.0.18362.0/win10-${{ matrix.platform }}
 
     - name: Create release
