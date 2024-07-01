@@ -61,10 +61,9 @@ jobs:
       run: |
         dir
         dir MemoGenerator\bin\x64\Release
-        dir MemoGenerator\bin\x64\Release/net6.0-windows10.0.18362.0
 
     - name: Create release
       uses: softprops/action-gh-release@v2
       with:
-        files: MemoGenerator-${{ github.ref_name }}-${{ matrix.platform }}.zip
+        files: MemoGenerator\bin\x64\Release/MemoGenerator-${{ github.ref_name }}-${{ matrix.platform }}.zip
         draft: true
