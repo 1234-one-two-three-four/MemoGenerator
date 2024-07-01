@@ -23,6 +23,9 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Debug
+      run: type MemoGenerator\MainWindow.xaml.cs
+
     # Install the .NET Core workload
     - name: Install .NET Core
       uses: actions/setup-dotnet@v4
@@ -38,7 +41,7 @@ jobs:
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=${{ env.CONFIGURATION }} /p:Platform=${{ env.PLATFORM }}
 
     - name: Build
-      run: msbuild $env:Solution_Name /p:Configuration=${{ env.CONFIGURATION }} /p:Platform=${{ env.PLATFORM }} /p:ConsoleEncoding=UTF8
+      run: msbuild $env:Solution_Name /p:Configuration=${{ env.CONFIGURATION }} /p:Platform=${{ env.PLATFORM }}
 
     - name: Upload artifact
       id: upload-artifact
