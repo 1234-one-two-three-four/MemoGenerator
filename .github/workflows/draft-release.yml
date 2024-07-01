@@ -57,6 +57,9 @@ jobs:
         cd MemoGenerator/bin/x64/Release
         tar -c -f MemoGenerator-${{ github.ref_name }}-${{ matrix.platform }}.zip net6.0-windows10.0.18362.0
 
+    - name: Debug
+      run: dir
+
     - name: Create release
       uses: softprops/action-gh-release@v2
       with:
