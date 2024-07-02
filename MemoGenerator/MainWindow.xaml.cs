@@ -2,8 +2,11 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
@@ -46,7 +49,31 @@ namespace MemoGenerator
 
         private void updateMemoTextBlock()
         {
-            memoTextBox.Text = identifyingComponent + paymentProofMethodComponent + documentsDeliveryRouteComponent + emailComponent;
+            const char componentPrefix = '[';
+            const char componentSuffix = ']';
+
+            List<String> components = new List<string>();
+            if (!String.IsNullOrEmpty(identifyingComponent))
+            {
+                components.Add($"{componentPrefix}{identifyingComponent}{componentSuffix}");
+            }
+            if (!String.IsNullOrEmpty(paymentProofMethodComponent))
+            {
+                components.Add($"{componentPrefix}{paymentProofMethodComponent}{componentSuffix}");
+            }
+            if (!String.IsNullOrEmpty(documentsDeliveryRouteComponent))
+            {
+                components.Add($"{componentPrefix}{documentsDeliveryRouteComponent}{componentSuffix}");
+            }
+
+            string text = String.Join("-", components);
+
+            if (!String.IsNullOrEmpty(emailComponent))
+            {
+                text += $" {emailComponent}";
+            }
+            
+            memoTextBox.Text = text;
         }
 
         private void copyButton_Click(object sender, RoutedEventArgs e)
@@ -58,36 +85,29 @@ namespace MemoGenerator
 
         private void updateIdentifyingComponent(object sender, TextChangedEventArgs e)
         {
-            string dateText = "";
-            DateTime date;
             dateErrorTextBox.Visibility = Visibility.Collapsed;
+            List<String> elements = new List<string>();
 
+            DateTime date;
             if (DateTime.TryParseExact(dateTextBox.Text, "yyMMdd", null, System.Globalization.DateTimeStyles.None, out date))
             {
-                dateText = date.ToString("yy'/'MM'/'dd");
+                elements.Add(date.ToString("yy'/'MM'/'dd"));
             }
             else if (DateTime.TryParseExact(dateTextBox.Text, "MMdd", null, System.Globalization.DateTimeStyles.None, out date))
             {
-                dateText = date.ToString("MM'/'dd");
+                elements.Add(date.ToString("MM'/'dd"));
             }
             else if (!String.IsNullOrEmpty(dateTextBox.Text))
             {
                 dateErrorTextBox.Visibility = Visibility.Visible;
             }
 
-            string amountText = "";
             if (Int32.TryParse(amountTextBox.Text, out int amount) && amount != 0) 
             {
-                amountText = amount.ToString("C");
-            }
-
-            string separator = "";
-            if (!string.IsNullOrEmpty(dateText) && !string.IsNullOrEmpty(amountText))
-            {
-                separator = " ";
+                elements.Add(amount.ToString("C"));
             }
             
-            identifyingComponent = "[" + dateText + separator + amountText + "]";
+            identifyingComponent = String.Join(" ", elements);
             updateMemoTextBlock();
         }
 
@@ -96,72 +116,74 @@ namespace MemoGenerator
             // 함께사는 세상 옵션 추가
             // 분할 발행 기능
 
-            string companyName = "";
             invoiceDateErrorTextBox.Visibility = Visibility.Collapsed;
+            List<String> elements = new List<string>();
 
-            if (companyCheckBox.IsChecked == true)
-            {
-                companyName = " 대미";
-            }
-
-            var invoiceDate = "";
             if (DateTime.TryParseExact(invoiceDateTextBox.Text, "MMdd", null, System.Globalization.DateTimeStyles.None, out var date))
             {
-                invoiceDate = date.ToString("MM'/'dd");
-            } 
+                elements.Add($"{date.ToString("MM'/'dd")}일자");
+            }
             else if (!String.IsNullOrEmpty(invoiceDateTextBox.Text))
             {
                 invoiceDateErrorTextBox.Visibility = Visibility.Visible;
             }
 
+            if (companyCheckBox.IsChecked == true)
+            {
+                elements.Add("대미");
+            }
+
             if (taxInvoiceCheckBox.IsChecked == true && transactionStatementCheckBox.IsChecked == true)
             {
-                paymentProofMethodComponent = "-[" + invoiceDate + " 자" + companyName + " 계산서/명세서 발행]";
+                elements.Add("계산서/명세서");
             }
             else if (taxInvoiceCheckBox.IsChecked == true)
             {
-                paymentProofMethodComponent = "-[" + invoiceDate + " 자" + companyName + " 계산서 발행]";
+                elements.Add("계산서");
             }
             else if (transactionStatementCheckBox.IsChecked == true)
             {
-                paymentProofMethodComponent = "-[" + invoiceDate + " 자" + companyName + " 명세서 발행]";
+                elements.Add("명세서");
             }
-            else
+
+            if (elements.Count > 0)
             {
-                paymentProofMethodComponent = "";
+                elements.Add("발행");
             }
+
+            paymentProofMethodComponent = String.Join(" ", elements);
             updateMemoTextBlock();
         }
 
         private void updateDocumentsDeliveryRouteComponent(object sender, RoutedEventArgs e)
         {
+            List<String> elements = new List<string>();
+
             if (sendingEmailCheckBox.IsChecked == true && sendingRegisteredCheckBox.IsChecked == true)
             {
-                documentsDeliveryRouteComponent = "-[서류(*) 메일/등기 발송]";
+                elements.Add("서류(*) 메일/등기");
             }
             else if (sendingEmailCheckBox.IsChecked == true)
             {
-                documentsDeliveryRouteComponent = "-[서류(*) 메일 발송]";
+                elements.Add("서류(*) 메일");
             }
             else if (sendingRegisteredCheckBox.IsChecked == true)
             {
-                documentsDeliveryRouteComponent = "-[서류(*) 등기 발송]";
+                elements.Add("서류(*) 등기");
             }
-            else
+
+            if (elements.Count > 0)
             {
-                documentsDeliveryRouteComponent = "";
+                elements.Add("발송");
             }
+
+            documentsDeliveryRouteComponent = String.Join(" ", elements);
             updateMemoTextBlock();
         }
 
         private void updateEmailComponent(object sender, RoutedEventArgs e)
         {
-            string emailText = "";
-            if (!string.IsNullOrEmpty(emailTextBox.Text))
-            {
-                emailText = " " + emailTextBox.Text;
-            }
-            emailComponent = emailText;
+            emailComponent = emailTextBox.Text;
             updateMemoTextBlock();
         }
     }
