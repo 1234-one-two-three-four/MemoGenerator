@@ -46,19 +46,24 @@
                 <CheckBox x:Name="companyCheckBox" Content="대미기프트"
                           Click="updatePaymentProofMethodComponent"/>
             </StackPanel>
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Padding="10" VerticalAlignment="Top"
-                        BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
-                <TextBlock Text="서류 발송 경로" Margin="10" FontWeight="Bold"></TextBlock>
-                <CheckBox x:Name="sendingEmailCheckBox" Content="메일"
-                          Click="updateDocumentsDeliveryRouteComponent"/>
-                <CheckBox x:Name="sendingRegisteredCheckBox" Content="등기" 
-                          Click="updateDocumentsDeliveryRouteComponent"/>
-            </StackPanel>
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Padding="10" VerticalAlignment="Top"
-            BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
-                <TextBox x:Name="emailTextBox" Width="200" Header="발송 이메일" PlaceholderText="example@email.com" PlaceholderForeground="LightGray"
-                         HorizontalAlignment="Left" Margin="4" 
-                         TextChanged="updateEmailComponent"></TextBox>
+            <StackPanel Orientation="Vertical" Spacing="30">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Padding="10" VerticalAlignment="Top"
+                            BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
+                    <TextBlock Text="서류 발송 경로" Margin="4" FontWeight="Normal"></TextBlock>
+                    <CheckBox x:Name="sendingEmailCheckBox" Content="메일"
+                                Click="updateDocumentsDeliveryRouteComponent"/>
+                    <CheckBox x:Name="sendingRegisteredCheckBox" Content="등기" 
+                                Click="updateDocumentsDeliveryRouteComponent"/>
+                    <TextBox x:Name="documentListTextBox" Width="200" Header="상세 목록" Margin="4"
+                             PlaceholderText="4대보험완납증명서, ..." PlaceholderForeground="LightGray"
+                             TextChanged="updateDocumentsDeliveryRouteComponent"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Padding="10" VerticalAlignment="Top"
+                            BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
+                    <TextBox x:Name="emailTextBox" Width="200" Header="발송 이메일" PlaceholderText="example@email.com" PlaceholderForeground="LightGray"
+                             HorizontalAlignment="Left" Margin="4" 
+                             TextChanged="updateEmailComponent"></TextBox>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
     </StackPanel>

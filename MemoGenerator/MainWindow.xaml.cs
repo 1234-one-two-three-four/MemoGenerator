@@ -182,17 +182,23 @@ namespace MemoGenerator
         {
             List<String> elements = new List<string>();
 
+            string documentList = "";
+            if (!String.IsNullOrEmpty(documentListTextBox.Text))
+            {
+                documentList = $"({documentListTextBox.Text})";
+            }
+
             if (sendingEmailCheckBox.IsChecked == true && sendingRegisteredCheckBox.IsChecked == true)
             {
-                elements.Add("서류(*) 메일/등기");
+                elements.Add($"서류{documentList} 메일/등기");
             }
             else if (sendingEmailCheckBox.IsChecked == true)
             {
-                elements.Add("서류(*) 메일");
+                elements.Add($"서류{documentList} 메일");
             }
             else if (sendingRegisteredCheckBox.IsChecked == true)
             {
-                elements.Add("서류(*) 등기");
+                elements.Add($"서류{documentList} 등기");
             }
 
             if (elements.Count > 0)
