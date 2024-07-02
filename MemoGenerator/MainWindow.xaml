@@ -27,12 +27,19 @@
             </StackPanel>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Padding="10" VerticalAlignment="Top"
                         BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
-                <TextBox x:Name="invoiceDateTextBox" Width="100" Header="발행일자" PlaceholderText="0619" PlaceholderForeground="LightGray"
+                <TextBox x:Name="invoiceDateTextBox" Width="110" Header="발행일자" PlaceholderText="0619" PlaceholderForeground="LightGray"
                          HorizontalAlignment="Left" Margin="4"
                          TextChanged="updatePaymentProofMethodComponent"></TextBox>
                 <TextBlock x:Name="invoiceDateErrorTextBox" Text="발행일자 오류" Margin="4" Foreground="Red" FontSize="11"></TextBlock>
-                <CheckBox x:Name="taxInvoiceCheckBox" Content="세금계산서"
-                          Click="updatePaymentProofMethodComponent"/>
+                <StackPanel Orientation="Vertical" Padding="0, 10, 0, 10">
+                    <CheckBox x:Name="taxInvoiceCheckBox" Content="계산서"
+                              Click="updatePaymentProofMethodComponent"/>
+                    <RadioButtons x:Name="invoiceTypeRadioButtons" MaxColumns="2" SelectedIndex="0" Margin="10, -2, -10, 0"
+                                  SelectionChanged="updatePaymentProofMethodComponent">
+                        <x:String>세금계산서</x:String>
+                        <x:String>면세계산서</x:String>
+                    </RadioButtons>
+                </StackPanel>
                 <CheckBox x:Name="transactionStatementCheckBox" Content="거래명세서"
                           Click="updatePaymentProofMethodComponent"/>
                 <TextBlock Text="사업자" Margin="10" FontWeight="Bold"></TextBlock>

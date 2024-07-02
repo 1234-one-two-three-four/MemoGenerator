@@ -37,7 +37,7 @@ namespace MemoGenerator
             var appWindow = WindowUtil.GetAppWindow(this);
             appWindow.Title = "일이삼사";
             WindowUtil.CenterToScreen(this);
-            appWindow.Resize(new SizeInt32 { Width = 900, Height = 450 }); // 창 크기
+            appWindow.Resize(new SizeInt32 { Width = 1100, Height = 500 }); // 창 크기
             ((OverlappedPresenter)appWindow.Presenter).IsAlwaysOnTop = false;
             ((OverlappedPresenter)appWindow.Presenter).IsMaximizable = false; // 최대화 가능 여부
             ((OverlappedPresenter)appWindow.Presenter).IsResizable = false;
@@ -135,15 +135,38 @@ namespace MemoGenerator
 
             if (taxInvoiceCheckBox.IsChecked == true && transactionStatementCheckBox.IsChecked == true)
             {
-                elements.Add("계산서/명세서");
+                invoiceTypeRadioButtons.IsEnabled = true;
+                switch (invoiceTypeRadioButtons.SelectedIndex)
+                {
+                    case 0:
+                        elements.Add("세금계산서/명세서");
+                        break;
+                    case 1:
+                        elements.Add("면세계산서/명세서");
+                        break;
+                }
             }
             else if (taxInvoiceCheckBox.IsChecked == true)
             {
-                elements.Add("계산서");
+                invoiceTypeRadioButtons.IsEnabled = true;
+                switch (invoiceTypeRadioButtons.SelectedIndex)
+                {
+                    case 0:
+                        elements.Add("세금계산서");
+                        break;
+                    case 1:
+                        elements.Add("면세계산서");
+                        break;
+                }
             }
             else if (transactionStatementCheckBox.IsChecked == true)
             {
+                invoiceTypeRadioButtons.IsEnabled = false;
                 elements.Add("명세서");
+            }
+            else
+            {
+                invoiceTypeRadioButtons.IsEnabled = false;
             }
 
             if (elements.Count > 0)
