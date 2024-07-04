@@ -22,14 +22,25 @@ namespace MemoGenerator
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        StackPanel[] panels;
+
         private string identifyingComponent = "";
         private string paymentProofMethodComponent = "";
         private string documentsDeliveryRouteComponent = "";
         private string emailComponent = "";
 
+        const int taxCalculatorPanelRowCount = 8;
+
         public MainWindow()
         {
             this.InitializeComponent();
+
+            panels = new StackPanel[]{ memoGeneratorPanel, taxCalculatorPanel };
+            foreach (var panel in panels)
+            {
+                panel.Visibility = Visibility.Collapsed;
+            }
+            panels[0].Visibility = Visibility.Visible;
 
             dateErrorTextBox.Visibility = Visibility.Collapsed;
             invoiceDateErrorTextBox.Visibility = Visibility.Collapsed;
@@ -45,6 +56,19 @@ namespace MemoGenerator
             appWindow.SetPresenter(AppWindowPresenterKind.Default); // 화면 형태 설정
             
             this.AppWindow.SetIcon("C:\\Users\\y\\Desktop\\Visual Studio\\Projects\\MemoGenerator\\MemoGenerator\\Assets\\app-icon.ico");
+        }
+
+        private void changePanel(object sender, RoutedEventArgs e)
+        {
+            Button transitionButton = sender as Button;
+
+            foreach (var panel in panels)
+            {
+                panel.Visibility = Visibility.Collapsed;
+            }
+
+            int tag = int.Parse(transitionButton.Tag.ToString());
+            panels[tag].Visibility = Visibility.Visible;
         }
 
         private void updateMemoTextBlock()
@@ -214,6 +238,73 @@ namespace MemoGenerator
         {
             emailComponent = emailTextBox.Text;
             updateMemoTextBlock();
+        }
+
+        private void calculateTax(object sender, RoutedEventArgs e)
+        {
+            bool canCalculate = true;
+
+            for (int row = 1; row <= taxCalculatorPanelRowCount; ++row)
+            {
+                TextBox quantityTextBox = taxCalculatorPanel.FindName($"quantity{row}") as TextBox;
+                TextBox totalAmountTextBox = taxCalculatorPanel.FindName($"totalAmount{row}") as TextBox;
+                TextBox unitPriceTextBox = taxCalculatorPanel.FindName($"unitPrice{row}") as TextBox;
+                TextBox totalVOSTextBox = taxCalculatorPanel.FindName($"totalVOS{row}") as TextBox;
+                TextBox totalVATTextBox = taxCalculatorPanel.FindName($"totalVAT{row}") as TextBox;
+
+                if (double.TryParse(quantityTextBox.Text, out double quantity) && quantity != 0)
+                {
+                    // 강제 커서 이동 이슈
+                    //quantityTextBox.Text = quantity.ToString("N0");
+                }
+                else
+                {
+                    canCalculate = false;
+                }
+
+                if (double.TryParse(totalAmountTextBox.Text, out double totalAmount))
+                {
+                    //totalAmountTextBox.Text = totalAmount.ToString("N0");
+                }
+                else
+                {
+                    canCalculate = false;
+                }
+
+                if (!canCalculate)
+                {
+                    unitPriceTextBox.Text = "";
+                    totalVOSTextBox.Text = "";
+                    totalVATTextBox.Text = "";
+                    break;
+                }
+
+                double unitPrice = Math.Round((totalAmount / quantity) / 1.1);
+                double vos = Math.Round(totalAmount / 1.1);
+                double vat = totalAmount - vos;
+                
+                unitPriceTextBox.Text = unitPrice.ToString("N0");
+                totalVOSTextBox.Text = vos.ToString("N0");
+                totalVATTextBox.Text = vat.ToString("N0");
+            }
+        }
+
+        private void resetButton_Click(object sender, RoutedEventArgs e)
+        {
+            for (int row = 1; row <= taxCalculatorPanelRowCount; ++row)
+            {
+                TextBox quantityTextBox = taxCalculatorPanel.FindName($"quantity{row}") as TextBox;
+                TextBox totalAmountTextBox = taxCalculatorPanel.FindName($"totalAmount{row}") as TextBox;
+                TextBox unitPriceTextBox = taxCalculatorPanel.FindName($"unitPrice{row}") as TextBox;
+                TextBox totalVOSTextBox = taxCalculatorPanel.FindName($"totalVOS{row}") as TextBox;
+                TextBox totalVATTextBox = taxCalculatorPanel.FindName($"totalVAT{row}") as TextBox;
+
+                quantityTextBox.Text = "";
+                totalAmountTextBox.Text = "";
+                unitPriceTextBox.Text = "";
+                totalVOSTextBox.Text = "";
+                totalVATTextBox.Text = "";
+            }
         }
     }
 }
