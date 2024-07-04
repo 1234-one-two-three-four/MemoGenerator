@@ -191,6 +191,7 @@ namespace MemoGenerator
             else
             {
                 invoiceTypeRadioButtons.IsEnabled = false;
+                elements.Clear();
             }
 
             if (elements.Count > 0)
