@@ -243,10 +243,10 @@ namespace MemoGenerator
 
         private void calculateTax(object sender, RoutedEventArgs e)
         {
-            bool canCalculate = true;
-
             for (int row = 1; row <= taxCalculatorPanelRowCount; ++row)
             {
+                bool canCalculate = true;
+
                 TextBox quantityTextBox = taxCalculatorPanel.FindName($"quantity{row}") as TextBox;
                 TextBox totalAmountTextBox = taxCalculatorPanel.FindName($"totalAmount{row}") as TextBox;
                 TextBox unitPriceTextBox = taxCalculatorPanel.FindName($"unitPrice{row}") as TextBox;
@@ -277,7 +277,7 @@ namespace MemoGenerator
                     unitPriceTextBox.Text = "";
                     totalVOSTextBox.Text = "";
                     totalVATTextBox.Text = "";
-                    break;
+                    continue;
                 }
 
                 double unitPrice = Math.Round((totalAmount / quantity) / 1.1);
