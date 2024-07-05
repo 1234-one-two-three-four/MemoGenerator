@@ -62,8 +62,7 @@
                         </StackPanel>
                         <Frame Height="2" Margin="0, 12, 0, 0" Background="DarkGray"></Frame>
                         <StackPanel x:Name="cardPanel">
-                            <TextBlock Text="카드 결제" Margin="10" FontWeight="Bold"></TextBlock>
-                            <RadioButtons x:Name="cardRadioButtons" MaxColumns="1" Margin="0, -8, 0, 0" SelectedIndex="0" SelectionChanged="updatePaymentProofMethodComponent">
+                            <RadioButtons x:Name="cardRadioButtons" MaxColumns="1" Margin="0, 4, 0, 0" SelectedIndex="0" SelectionChanged="updatePaymentProofMethodComponent">
                                 <x:String>비씨카드 결제</x:String>
                                 <x:String>나이스페이 결제</x:String>
                             </RadioButtons>
@@ -98,7 +97,7 @@
 
         <!--세액 계산-->
         <StackPanel x:Name="taxCalculatorPanel" Orientation="Horizontal">
-            <StackPanel Spacing="10" Padding="10" Background="#EEEEEE" CornerRadius="4">
+            <StackPanel Spacing="14" Padding="10" Background="#EEEEEE" CornerRadius="4">
                 <StackPanel Orientation="Horizontal" Spacing="20" Padding="36, 0, 0, 0">
                     <TextBlock Text="수량" Width="100" TextAlignment="Center" FontWeight="Bold"></TextBlock>
                     <TextBlock Text="총 금액" Width="130" TextAlignment="Center" FontWeight="Bold"></TextBlock>
