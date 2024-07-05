@@ -47,7 +47,7 @@ namespace MemoGenerator
             invoiceDateErrorTextBox.Visibility = Visibility.Collapsed;
 
             var appWindow = WindowUtil.GetAppWindow(this);
-            appWindow.Title = "일이삼사";
+            appWindow.Title = "시간을 아껴줘용";
             WindowUtil.CenterToScreen(this);
             appWindow.Resize(new SizeInt32 { Width = 1000, Height = 620 }); // 창 크기
             ((OverlappedPresenter)appWindow.Presenter).IsAlwaysOnTop = false;
@@ -55,8 +55,9 @@ namespace MemoGenerator
             ((OverlappedPresenter)appWindow.Presenter).IsResizable = false;
             //((OverlappedPresenter)appWindow.Presenter).Maximize(); // 실행 시 창이 최대화 상태로 나타남
             appWindow.SetPresenter(AppWindowPresenterKind.Default); // 화면 형태 설정
-            
-            this.AppWindow.SetIcon("C:\\Users\\y\\Desktop\\Visual Studio\\Projects\\MemoGenerator\\MemoGenerator\\Assets\\app-icon.ico");
+
+            // <a href="https://www.flaticon.com/kr/free-icons/" title="유용 아이콘">유용 아이콘 제작자: Maan Icons - Flaticon</a>
+            this.AppWindow.SetIcon("C:\\Users\\y\\Desktop\\Visual Studio\\Projects\\MemoGenerator\\MemoGenerator\\Assets\\default-icon.ico");
         }
 
         private void changePanel(object sender, RoutedEventArgs e)
