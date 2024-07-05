@@ -11,6 +11,8 @@
         <StackPanel Orientation="Vertical" Spacing="12" Margin="2, 0, -4, 0">
             <Button x:Name="memoGeneratorSideButton" Click="changePanel" Tag="0" Foreground="White" Background="DarkBlue">메모 생성</Button>
             <Button x:Name="taxCalculatorSideButton" Click="changePanel" Tag="1" Foreground="White" Background="DarkBlue">세액 계산</Button>
+            <Frame Height="380"></Frame>
+            <Button x:Name="settingsSideButton" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Click="changePanel" Tag="9" Foreground="White" Background="DarkSlateGray">설 정</Button>
         </StackPanel>
         
         <Frame Width="2" Background="LightGray"></Frame>
@@ -228,6 +230,12 @@
             </StackPanel>
             <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0">
                 <Button x:Name="resetButton" Background="Red" Foreground="White" Click="resetButton_Click">초기화</Button>
+            </StackPanel>
+        </StackPanel>
+
+        <!--설정-->
+        <StackPanel x:Name="settingsPanel" Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
             </StackPanel>
         </StackPanel>
     </StackPanel>

@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
+using Windows.UI.ApplicationSettings;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -36,7 +37,18 @@ namespace MemoGenerator
         {
             this.InitializeComponent();
 
-            panels = new StackPanel[]{ memoGeneratorPanel, taxCalculatorPanel };
+            panels = new StackPanel[]{ 
+                memoGeneratorPanel, // tag 0
+                taxCalculatorPanel, 
+                new StackPanel(),
+                new StackPanel(),
+                new StackPanel(),
+                new StackPanel(),
+                new StackPanel(),
+                new StackPanel(),
+                new StackPanel(),
+                settingsPanel, // tag 9
+            };
             foreach (var panel in panels)
             {
                 panel.Visibility = Visibility.Collapsed;
