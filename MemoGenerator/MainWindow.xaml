@@ -12,68 +12,91 @@
             <Button x:Name="memoGeneratorSideButton" Click="changePanel" Tag="0" Foreground="White" Background="DarkBlue">메모 생성</Button>
             <Button x:Name="taxCalculatorSideButton" Click="changePanel" Tag="1" Foreground="White" Background="DarkBlue">세액 계산</Button>
         </StackPanel>
+        
         <Frame Width="2" Background="LightGray"></Frame>
-        <StackPanel x:Name="memoGeneratorPanel" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                     Padding="10" CornerRadius="4">
+        
+        <!--메모 생성-->
+        <StackPanel x:Name="memoGeneratorPanel" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="10" CornerRadius="4">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <TextBox x:Name="memoTextBox" Text="" Foreground="Black" Background="Beige" VerticalAlignment="Center"
-                 FontSize="16" FontFamily="맑은 고딕" Margin="10" MinWidth="680" IsReadOnly="True"></TextBox>
+                <TextBox x:Name="memoTextBox" Text="" Foreground="Black" Background="Beige" VerticalAlignment="Center" FontSize="16" FontFamily="맑은 고딕" Margin="10" MinWidth="680" IsReadOnly="True"></TextBox>
                 <Button x:Name="copyButton" Click="copyButton_Click" Background="LightSteelBlue" Margin="4">복사</Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Spacing="30">
-                <StackPanel Orientation="Vertical" Width="220" Padding="10" VerticalAlignment="Top"
-                    BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
-                    <TextBox x:Name="dateTextBox" Width="100" Header="날짜" PlaceholderText="240619" PlaceholderForeground="LightGray"
-                     HorizontalAlignment="Left" Margin="4" 
-                     TextChanged="updateIdentifyingComponent"></TextBox>
-                    <TextBlock x:Name="dateErrorTextBox" Text="날짜 오류" Margin="4" Foreground="Red" FontSize="11"></TextBlock>
-                    <TextBox x:Name="amountTextBox" Width="180" Header="금액" PlaceholderText="금액을 입력하세요." PlaceholderForeground="LightGray"
-                     HorizontalAlignment="Left" Margin="4"
-                     TextChanged="updateIdentifyingComponent"></TextBox>
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Spacing="26">
+                <StackPanel Orientation="Vertical" Margin="0, -10, 0, 0">
+                    <TextBlock Text="거래 식별" Margin="10, 11, 0, 10" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                    <StackPanel Orientation="Vertical" Width="220" Padding="10" VerticalAlignment="Top"
+                                BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
+                        <TextBox x:Name="dateTextBox" Width="100" Header="날짜" PlaceholderText="240619" PlaceholderForeground="LightGray"
+                                 HorizontalAlignment="Left" Margin="4" 
+                                 TextChanged="updateIdentifyingComponent"></TextBox>
+                        <TextBlock x:Name="dateErrorTextBox" Text="날짜 오류" Margin="4" Foreground="Red" FontSize="11"></TextBlock>
+                        <TextBox x:Name="amountTextBox" Width="180" Header="금액" PlaceholderText="금액을 입력하세요." PlaceholderForeground="LightGray"
+                                 HorizontalAlignment="Left" Margin="4"
+                                 TextChanged="updateIdentifyingComponent"></TextBox>
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Padding="10" VerticalAlignment="Top"
-                    BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
-                    <TextBox x:Name="invoiceDateTextBox" Width="110" Header="발행일자" PlaceholderText="0619" PlaceholderForeground="LightGray"
-                     HorizontalAlignment="Left" Margin="4"
-                     TextChanged="updatePaymentProofMethodComponent"></TextBox>
-                    <TextBlock x:Name="invoiceDateErrorTextBox" Text="발행일자 오류" Margin="4" Foreground="Red" FontSize="11"></TextBlock>
-                    <StackPanel Orientation="Vertical" Padding="0, 10, 0, 10">
-                        <CheckBox x:Name="taxInvoiceCheckBox" Content="계산서"
-                          Click="updatePaymentProofMethodComponent"/>
-                        <RadioButtons x:Name="invoiceTypeRadioButtons" MaxColumns="2" SelectedIndex="0" Margin="10, -2, -10, 0"
-                              SelectionChanged="updatePaymentProofMethodComponent">
-                            <x:String>세금계산서</x:String>
-                            <x:String>면세계산서</x:String>
+                
+                <StackPanel Orientation="Vertical" Margin="0, -10, 0, 0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock Text="결제 증빙" Margin="10, 0, 0, 0" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                        <RadioButtons x:Name="paymentProofTypeRadioButton" MaxColumns="2" Margin="40, 0, 0, 0" SelectedIndex="0" SelectionChanged="updatePaymentProofMethodComponent">
+                            <RadioButton Margin="0, 0, -46, 0" Padding="6">계산서</RadioButton>
+                            <RadioButton Margin="0, 0, -46, 0" Padding="6">카드</RadioButton>
                         </RadioButtons>
                     </StackPanel>
-                    <CheckBox x:Name="transactionStatementCheckBox" Content="거래명세서"
-                      Click="updatePaymentProofMethodComponent"/>
-                    <TextBlock Text="사업자" Margin="10" FontWeight="Bold"></TextBlock>
-                    <CheckBox x:Name="companyCheckBox" Content="대미기프트"
-                      Click="updatePaymentProofMethodComponent"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Spacing="30">
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Padding="10" VerticalAlignment="Top"
-                        BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
-                        <TextBlock Text="서류 발송 경로" Margin="4" FontWeight="Normal"></TextBlock>
-                        <CheckBox x:Name="sendingEmailCheckBox" Content="메일"
-                            Click="updateDocumentsDeliveryRouteComponent"/>
-                        <CheckBox x:Name="sendingRegisteredCheckBox" Content="등기" 
-                            Click="updateDocumentsDeliveryRouteComponent"/>
-                        <TextBox x:Name="documentListTextBox" Width="200" Header="상세 목록" Margin="4"
-                         PlaceholderText="4대보험완납증명서, ..." PlaceholderForeground="LightGray"
-                         TextChanged="updateDocumentsDeliveryRouteComponent"></TextBox>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Padding="10" VerticalAlignment="Top" BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
+                        <StackPanel x:Name="invoicePanel">
+                            <TextBox x:Name="invoiceDateTextBox" Width="110" Header="발행일자" PlaceholderText="0619" PlaceholderForeground="LightGray" HorizontalAlignment="Left" Margin="4" TextChanged="updatePaymentProofMethodComponent"></TextBox>
+                            <TextBlock x:Name="invoiceDateErrorTextBox" Text="발행일자 오류" Margin="4" Foreground="Red" FontSize="11"></TextBlock>
+                            <StackPanel Orientation="Vertical" Padding="0, 10, 0, 10">
+                                <CheckBox x:Name="taxInvoiceCheckBox" Content="계산서" Click="updatePaymentProofMethodComponent"/>
+                                <RadioButtons x:Name="invoiceTypeRadioButtons" MaxColumns="2" SelectedIndex="0" Margin="10, -2, -10, 0" SelectionChanged="updatePaymentProofMethodComponent">
+                                    <x:String>세금계산서</x:String>
+                                    <x:String>면세계산서</x:String>
+                                </RadioButtons>
+                            </StackPanel>
+                            <CheckBox x:Name="transactionStatementCheckBox" Content="거래명세서" Click="updatePaymentProofMethodComponent"/>
+                            <TextBlock Text="사업자" Margin="10" FontWeight="Bold"></TextBlock>
+                            <CheckBox x:Name="companyCheckBox" Content="대미기프트" Click="updatePaymentProofMethodComponent"/>
+                        </StackPanel>
+                        <Frame Height="2" Margin="0, 12, 0, 0" Background="DarkGray"></Frame>
+                        <StackPanel x:Name="cardPanel">
+                            <TextBlock Text="카드 결제" Margin="10" FontWeight="Bold"></TextBlock>
+                            <RadioButtons x:Name="cardRadioButtons" MaxColumns="1" Margin="0, -8, 0, 0" SelectedIndex="0" SelectionChanged="updatePaymentProofMethodComponent">
+                                <x:String>비씨카드 결제</x:String>
+                                <x:String>나이스페이 결제</x:String>
+                            </RadioButtons>
+                        </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Padding="10" VerticalAlignment="Top"
-                        BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
-                        <TextBox x:Name="emailTextBox" Width="200" Header="발송 이메일" PlaceholderText="example@email.com" PlaceholderForeground="LightGray"
-                         HorizontalAlignment="Left" Margin="4" 
-                         TextChanged="updateEmailComponent"></TextBox>
+                </StackPanel>
+                
+                <StackPanel Orientation="Vertical" Margin="0, -10, 0, 0">
+                    <TextBlock Text="서류" Margin="10, 11, 0, 10" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                    <StackPanel Orientation="Vertical" Spacing="26">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Padding="10" VerticalAlignment="Top"
+                                BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
+                            <TextBlock Text="발송 경로" Margin="4" FontWeight="Normal"></TextBlock>
+                            <CheckBox x:Name="sendingEmailCheckBox" Content="메일"
+                                      Click="updateDocumentsDeliveryRouteComponent"/>
+                            <CheckBox x:Name="sendingRegisteredCheckBox" Content="등기" 
+                                      Click="updateDocumentsDeliveryRouteComponent"/>
+                            <TextBox x:Name="documentListTextBox" Width="200" Header="상세 목록" Margin="4"
+                                     PlaceholderText="4대보험완납증명서, ..." PlaceholderForeground="LightGray"
+                                     TextChanged="updateDocumentsDeliveryRouteComponent"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Padding="10" VerticalAlignment="Top"
+                                    BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
+                            <TextBox x:Name="emailTextBox" Width="200" Header="발송 이메일" PlaceholderText="example@email.com" PlaceholderForeground="LightGray"
+                                     HorizontalAlignment="Left" Margin="4" 
+                                     TextChanged="updateEmailComponent"></TextBox>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
 
+        <!--세액 계산-->
         <StackPanel x:Name="taxCalculatorPanel" Orientation="Horizontal">
             <StackPanel Spacing="10" Padding="10" Background="#EEEEEE" CornerRadius="4">
                 <StackPanel Orientation="Horizontal" Spacing="20" Padding="36, 0, 0, 0">

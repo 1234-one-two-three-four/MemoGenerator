@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Xml.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
@@ -48,7 +49,7 @@ namespace MemoGenerator
             var appWindow = WindowUtil.GetAppWindow(this);
             appWindow.Title = "일이삼사";
             WindowUtil.CenterToScreen(this);
-            appWindow.Resize(new SizeInt32 { Width = 1100, Height = 500 }); // 창 크기
+            appWindow.Resize(new SizeInt32 { Width = 1000, Height = 620 }); // 창 크기
             ((OverlappedPresenter)appWindow.Presenter).IsAlwaysOnTop = false;
             ((OverlappedPresenter)appWindow.Presenter).IsMaximizable = false; // 최대화 가능 여부
             ((OverlappedPresenter)appWindow.Presenter).IsResizable = false;
@@ -140,6 +141,47 @@ namespace MemoGenerator
             // 함께사는 세상 옵션 추가
             // 분할 발행 기능
 
+            List<Control> invoicePanelControls = new List<Control>();
+            List<Control> cardPanelControls = new List<Control>();
+
+            void retrieveAllChildControls(Panel panel, in List<Control> store)
+            {
+                if (panel.Children.Count == 0) { return; }
+                foreach (var element in panel.Children)
+                {
+                    if (element is Panel)
+                    {
+                        retrieveAllChildControls((Panel)element, store);
+                    }
+                    if (element is Control)
+                    {
+                        store.Add((Control)element);
+                    }
+                }
+            }
+
+            retrieveAllChildControls(invoicePanel, invoicePanelControls);
+            retrieveAllChildControls(cardPanel, cardPanelControls);
+
+            switch (paymentProofTypeRadioButton.SelectedIndex)
+            {
+                case 0:
+                    foreach (var control in invoicePanelControls) { control.IsEnabled = true; }
+                    foreach (var control in cardPanelControls) { control.IsEnabled = false; }
+                    updatePaymentProofMethodComponentForInvoice();
+                    break;
+                case 1:
+                    foreach (var control in invoicePanelControls) { control.IsEnabled = false; }
+                    foreach (var control in cardPanelControls) { control.IsEnabled = true; }
+                    updatePaymentProofMethodComponentForCard();
+                    break;
+            }
+
+            updateMemoTextBlock();
+        }
+
+        private void updatePaymentProofMethodComponentForInvoice()
+        {
             invoiceDateErrorTextBox.Visibility = Visibility.Collapsed;
             List<String> elements = new List<string>();
 
@@ -200,7 +242,28 @@ namespace MemoGenerator
             }
 
             paymentProofMethodComponent = String.Join(" ", elements);
-            updateMemoTextBlock();
+        }
+
+        private void updatePaymentProofMethodComponentForCard()
+        {
+            List<String> elements = new List<string>();
+
+            switch (cardRadioButtons.SelectedIndex)
+            {
+                case 0:
+                    elements.Add("비씨카드");
+                    break;
+                case 1:
+                    elements.Add("나이스페이");
+                    break;
+            }
+
+            if (elements.Count > 0)
+            {
+                elements.Add("결제");
+            }
+
+            paymentProofMethodComponent = String.Join(" ", elements);
         }
 
         private void updateDocumentsDeliveryRouteComponent(object sender, RoutedEventArgs e)
