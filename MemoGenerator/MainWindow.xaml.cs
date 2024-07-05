@@ -36,7 +36,7 @@ namespace MemoGenerator
         public MainWindow()
         {
             this.InitializeComponent();
-
+            
             panels = new StackPanel[]{ 
                 memoGeneratorPanel, // tag 0
                 taxCalculatorPanel, 
@@ -381,6 +381,14 @@ namespace MemoGenerator
                 unitPriceTextBox.Text = "";
                 totalVOSTextBox.Text = "";
                 totalVATTextBox.Text = "";
+            }
+        }
+
+        private void appendingFinishToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (appendingFinishToggleSwitch.IsOn)
+            {
+
             }
         }
     }

@@ -235,8 +235,7 @@
 
         <!--설정-->
         <StackPanel x:Name="settingsPanel" Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-            </StackPanel>
+            <ToggleSwitch x:Name="appendingFinishToggleSwitch" Toggled="appendingFinishToggleSwitch_Toggled">• 문구 끝에 "완료" 붙이기</ToggleSwitch>
         </StackPanel>
     </StackPanel>
 </Window>
