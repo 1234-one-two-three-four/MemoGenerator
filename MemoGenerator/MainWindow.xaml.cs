@@ -307,12 +307,14 @@ namespace MemoGenerator
 
         private void calculateTax(object sender, RoutedEventArgs e)
         {
+            double totalAmount = 0;
+
             for (int row = 1; row <= taxCalculatorPanelRowCount; ++row)
             {
                 bool canCalculate = true;
 
                 TextBox quantityTextBox = taxCalculatorPanel.FindName($"quantity{row}") as TextBox;
-                TextBox totalAmountTextBox = taxCalculatorPanel.FindName($"totalAmount{row}") as TextBox;
+                TextBox amountTextBox = taxCalculatorPanel.FindName($"amount{row}") as TextBox;
                 TextBox unitPriceTextBox = taxCalculatorPanel.FindName($"unitPrice{row}") as TextBox;
                 TextBox totalVOSTextBox = taxCalculatorPanel.FindName($"totalVOS{row}") as TextBox;
                 TextBox totalVATTextBox = taxCalculatorPanel.FindName($"totalVAT{row}") as TextBox;
@@ -327,9 +329,11 @@ namespace MemoGenerator
                     canCalculate = false;
                 }
 
-                if (double.TryParse(totalAmountTextBox.Text, out double totalAmount))
+                if (double.TryParse(amountTextBox.Text, out double amount))
                 {
-                    //totalAmountTextBox.Text = totalAmount.ToString("N0");
+                    // 강제 커서 이동 이슈
+                    //amountTextBox.Text = amount.ToString("N0");
+                    totalAmount += amount;
                 }
                 else
                 {
@@ -344,13 +348,15 @@ namespace MemoGenerator
                     continue;
                 }
 
-                double unitPrice = Math.Round((totalAmount / quantity) / 1.1);
-                double vos = Math.Round(totalAmount / 1.1);
-                double vat = totalAmount - vos;
+                double unitPrice = Math.Round((amount / quantity) / 1.1);
+                double vos = Math.Round(amount / 1.1);
+                double vat = amount - vos;
                 
                 unitPriceTextBox.Text = unitPrice.ToString("N0");
                 totalVOSTextBox.Text = vos.ToString("N0");
                 totalVATTextBox.Text = vat.ToString("N0");
+
+                totalAmountTextBox.Text = totalAmount.ToString("N0");
             }
         }
 
@@ -359,13 +365,13 @@ namespace MemoGenerator
             for (int row = 1; row <= taxCalculatorPanelRowCount; ++row)
             {
                 TextBox quantityTextBox = taxCalculatorPanel.FindName($"quantity{row}") as TextBox;
-                TextBox totalAmountTextBox = taxCalculatorPanel.FindName($"totalAmount{row}") as TextBox;
+                TextBox amountTextBox = taxCalculatorPanel.FindName($"amount{row}") as TextBox;
                 TextBox unitPriceTextBox = taxCalculatorPanel.FindName($"unitPrice{row}") as TextBox;
                 TextBox totalVOSTextBox = taxCalculatorPanel.FindName($"totalVOS{row}") as TextBox;
                 TextBox totalVATTextBox = taxCalculatorPanel.FindName($"totalVAT{row}") as TextBox;
 
                 quantityTextBox.Text = "";
-                totalAmountTextBox.Text = "";
+                amountTextBox.Text = "";
                 unitPriceTextBox.Text = "";
                 totalVOSTextBox.Text = "";
                 totalVATTextBox.Text = "";
