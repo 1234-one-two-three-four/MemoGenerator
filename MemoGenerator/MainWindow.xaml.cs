@@ -1,6 +1,8 @@
+using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +13,8 @@ using System.Xml.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
+using Windows.UI;
+using Windows.UI.Text;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -30,8 +34,8 @@ namespace MemoGenerator
         private string documentsDeliveryRouteComponent = "";
         private string emailComponent = "";
 
-        const int taxCalculatorPanelRowCount = 8;
-
+        private TaxCalculatingModel taxCalculatingModel = new TaxCalculatingModel();
+        
         public MainWindow()
         {
             this.InitializeComponent();
@@ -58,6 +62,10 @@ namespace MemoGenerator
 
             // <a href="https://www.flaticon.com/kr/free-icons/" title="유용 아이콘">유용 아이콘 제작자: Maan Icons - Flaticon</a>
             this.AppWindow.SetIcon("C:\\Users\\y\\Desktop\\Visual Studio\\Projects\\MemoGenerator\\MemoGenerator\\Assets\\default-icon.ico");
+
+            taxCalculatorPanel.DataContext = taxCalculatingModel;
+
+            disableDeductionGroup();
         }
 
         private void changePanel(object sender, RoutedEventArgs e)
@@ -144,22 +152,6 @@ namespace MemoGenerator
 
             List<Control> invoicePanelControls = new List<Control>();
             List<Control> cardPanelControls = new List<Control>();
-
-            void retrieveAllChildControls(Panel panel, in List<Control> store)
-            {
-                if (panel.Children.Count == 0) { return; }
-                foreach (var element in panel.Children)
-                {
-                    if (element is Panel)
-                    {
-                        retrieveAllChildControls((Panel)element, store);
-                    }
-                    if (element is Control)
-                    {
-                        store.Add((Control)element);
-                    }
-                }
-            }
 
             retrieveAllChildControls(invoicePanel, invoicePanelControls);
             retrieveAllChildControls(cardPanel, cardPanelControls);
@@ -305,76 +297,80 @@ namespace MemoGenerator
             updateMemoTextBlock();
         }
 
-        private void calculateTax(object sender, RoutedEventArgs e)
-        {
-            double totalAmount = 0;
-
-            for (int row = 1; row <= taxCalculatorPanelRowCount; ++row)
-            {
-                bool canCalculate = true;
-
-                TextBox quantityTextBox = taxCalculatorPanel.FindName($"quantity{row}") as TextBox;
-                TextBox amountTextBox = taxCalculatorPanel.FindName($"amount{row}") as TextBox;
-                TextBox unitPriceTextBox = taxCalculatorPanel.FindName($"unitPrice{row}") as TextBox;
-                TextBox totalVOSTextBox = taxCalculatorPanel.FindName($"totalVOS{row}") as TextBox;
-                TextBox totalVATTextBox = taxCalculatorPanel.FindName($"totalVAT{row}") as TextBox;
-
-                if (double.TryParse(quantityTextBox.Text, out double quantity) && quantity != 0)
-                {
-                    // 강제 커서 이동 이슈
-                    //quantityTextBox.Text = quantity.ToString("N0");
-                }
-                else
-                {
-                    canCalculate = false;
-                }
-
-                if (double.TryParse(amountTextBox.Text, out double amount))
-                {
-                    // 강제 커서 이동 이슈
-                    //amountTextBox.Text = amount.ToString("N0");
-                    totalAmount += amount;
-                }
-                else
-                {
-                    canCalculate = false;
-                }
-
-                if (!canCalculate)
-                {
-                    unitPriceTextBox.Text = "";
-                    totalVOSTextBox.Text = "";
-                    totalVATTextBox.Text = "";
-                    continue;
-                }
-
-                double unitPrice = Math.Round((amount / quantity) / 1.1);
-                double vos = Math.Round(amount / 1.1);
-                double vat = amount - vos;
-                
-                unitPriceTextBox.Text = unitPrice.ToString("N0");
-                totalVOSTextBox.Text = vos.ToString("N0");
-                totalVATTextBox.Text = vat.ToString("N0");
-
-                totalAmountTextBox.Text = totalAmount.ToString("N0");
-            }
-        }
-
         private void resetButton_Click(object sender, RoutedEventArgs e)
         {
-            for (int row = 1; row <= taxCalculatorPanelRowCount; ++row)
-            {
-                TextBox quantityTextBox = taxCalculatorPanel.FindName($"quantity{row}") as TextBox;
-                TextBox amountTextBox = taxCalculatorPanel.FindName($"amount{row}") as TextBox;
-                TextBox unitPriceTextBox = taxCalculatorPanel.FindName($"unitPrice{row}") as TextBox;
-                TextBox totalVOSTextBox = taxCalculatorPanel.FindName($"totalVOS{row}") as TextBox;
-                TextBox totalVATTextBox = taxCalculatorPanel.FindName($"totalVAT{row}") as TextBox;
+            taxCalculatingModel.initializeItemInfos();
+            taxCalculatingModel.propertyChanged(null);
+        }
 
-                quantityTextBox.Text = "";
-                amountTextBox.Text = "";
-                unitPriceTextBox.Text = "";
-                totalVOSTextBox.Text = "";
-                totalVATTextBox.Text = "";
+        private void deductionCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            if (deductionCheckBox.IsChecked == true) { enableDeductionGroup(); }
+            else { disableDeductionGroup(); }
+        }
+
+        private void disableDeductionGroup()
+        {
+            deductedTotalAmountTextBox.IsEnabled = false;
+            deductingTargetComboBox.IsEnabled = false;
+            deductionRateTextBox.IsEnabled = false;
+            List<Control> extraItemStackPanelControls = new List<Control>();
+            retrieveAllChildControls(extraItemStackPanel, extraItemStackPanelControls);
+            foreach (var control in extraItemStackPanelControls)
+            {
+                control.IsEnabled = false;
+            }
+
+            extraItemTitleTextBlock.Foreground = new SolidColorBrush(Colors.LightGray);
+            deductedTotalAmountTextBlock.Foreground = new SolidColorBrush(Colors.LightGray);
+            deductionRateTextBlock.Foreground = new SolidColorBrush(Colors.LightGray);
+            deductingTargetTextBlock.Foreground = new SolidColorBrush(Colors.LightGray);
+
+            //totalAmountTextBox.Content = TextDecorations.None;
+        }
+
+        private void enableDeductionGroup()
+        {
+            deductedTotalAmountTextBox.IsEnabled = true;
+            deductingTargetComboBox.IsEnabled = true;
+            deductionRateTextBox.IsEnabled = true;
+            List<Control> extraItemStackPanelControls = new List<Control>();
+            retrieveAllChildControls(extraItemStackPanel, extraItemStackPanelControls);
+            foreach (var control in extraItemStackPanelControls)
+            {
+                control.IsEnabled = true;
+            }
+
+            extraItemTitleTextBlock.Foreground = new SolidColorBrush(Colors.Black);
+            deductedTotalAmountTextBlock.Foreground = new SolidColorBrush(Colors.Black);
+            deductionRateTextBlock.Foreground = new SolidColorBrush(Colors.Black);
+            deductingTargetTextBlock.Foreground = new SolidColorBrush(Colors.Black);
+
+            //totalAmountTextBox.TextDecorations = TextDecorations.Strikethrough;
+
+            //StackPanel itemStackPanel = (StackPanel)taxCalculatorPanel.FindName($"itemStackPanel{deductingTargetComboBox.SelectedIndex}");
+            //List<Control> itemStackPanelControls = new List<Control>();
+
+            //retrieveAllChildControls(itemStackPanel, itemStackPanelControls);
+            //foreach (var control in itemStackPanelControls)
+            //{
+            //    control.IsEnabled = false;
+            //}
+        }
+
+        private void retrieveAllChildControls(Panel panel, in List<Control> store)
+        {
+            if (panel.Children.Count == 0) { return; }
+            foreach (var element in panel.Children)
+            {
+                if (element is Panel)
+                {
+                    retrieveAllChildControls((Panel)element, store);
+                }
+                if (element is Control)
+                {
+                    store.Add((Control)element);
+                }
             }
         }
     }

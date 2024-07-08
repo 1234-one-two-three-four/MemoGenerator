@@ -1,240 +1,345 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Window
-    x:Class="MemoGenerator.MainWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MemoGenerator"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="18" Spacing="30">
-        <StackPanel Orientation="Vertical" Spacing="12" Margin="2, 0, -4, 0">
-            <Button x:Name="memoGeneratorSideButton" Click="changePanel" Tag="0" Foreground="White" Background="DarkBlue">메모 생성</Button>
-            <Button x:Name="taxCalculatorSideButton" Click="changePanel" Tag="1" Foreground="White" Background="DarkBlue">세액 계산</Button>
+<?xml version="1.0" encoding="utf-8" ?>
+<Window x:Class="MemoGenerator.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="using:MemoGenerator"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
+    <StackPanel Margin="18" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal" Spacing="30">
+        <StackPanel.Resources>
+            <local:NumberConverter x:Key="NumberConverter" />
+        </StackPanel.Resources>
+
+        <StackPanel Margin="2,0,-4,0" Orientation="Vertical" Spacing="12">
+            <Button x:Name="memoGeneratorSideButton" Background="DarkBlue" Click="changePanel" Foreground="White" Tag="0">
+                메모 생성
+            </Button>
+            <Button x:Name="taxCalculatorSideButton" Background="DarkBlue" Click="changePanel" Foreground="White" Tag="1">
+                세액 계산
+            </Button>
         </StackPanel>
-        
-        <Frame Width="2" Background="LightGray"></Frame>
-        
-        <!--메모 생성-->
-        <StackPanel x:Name="memoGeneratorPanel" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="10" CornerRadius="4">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <TextBox x:Name="memoTextBox" Text="" Foreground="Black" Background="Beige" VerticalAlignment="Center" FontSize="16" FontFamily="맑은 고딕" Margin="10" MinWidth="680" IsReadOnly="True"></TextBox>
-                <Button x:Name="copyButton" Click="copyButton_Click" Background="LightSteelBlue" Margin="4">복사</Button>
+
+        <Frame Width="2" Background="LightGray" />
+
+        <!--  메모 생성  -->
+        <StackPanel x:Name="memoGeneratorPanel" Padding="10" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="4"
+                    Orientation="Vertical">
+            <StackPanel Margin="10" HorizontalAlignment="Center" Orientation="Horizontal">
+                <TextBox x:Name="memoTextBox" MinWidth="680" Margin="10" VerticalAlignment="Center" Background="Beige"
+                         FontFamily="맑은 고딕" FontSize="16" Foreground="Black" IsReadOnly="True" Text="" />
+                <Button x:Name="copyButton" Margin="4" Background="LightSteelBlue" Click="copyButton_Click">
+                    복사
+                </Button>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Spacing="26">
-                <StackPanel Orientation="Vertical" Margin="0, -10, 0, 0">
-                    <TextBlock Text="거래 식별" Margin="10, 11, 0, 10" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
-                    <StackPanel Orientation="Vertical" Width="220" Padding="10" VerticalAlignment="Top"
-                                BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
-                        <TextBox x:Name="dateTextBox" Width="100" Header="날짜" PlaceholderText="240619" PlaceholderForeground="LightGray"
-                                 HorizontalAlignment="Left" Margin="4" 
-                                 TextChanged="updateIdentifyingComponent"></TextBox>
-                        <TextBlock x:Name="dateErrorTextBox" Text="날짜 오류" Margin="4" Foreground="Red" FontSize="11"></TextBlock>
-                        <TextBox x:Name="amountTextBox" Width="180" Header="금액" PlaceholderText="금액을 입력하세요." PlaceholderForeground="LightGray"
-                                 HorizontalAlignment="Left" Margin="4"
-                                 TextChanged="updateIdentifyingComponent"></TextBox>
+            <StackPanel VerticalAlignment="Top" Orientation="Horizontal" Spacing="26">
+                <StackPanel Margin="0,-10,0,0" Orientation="Vertical">
+                    <TextBlock Margin="10,11,0,10" VerticalAlignment="Center" FontWeight="Bold" Text="거래 식별" />
+                    <StackPanel Width="220" Padding="10" VerticalAlignment="Top" Background="#F6F6F6" BorderBrush="DarkGray"
+                                BorderThickness="1" CornerRadius="10" Orientation="Vertical">
+                        <TextBox x:Name="dateTextBox" Width="100" Margin="4" HorizontalAlignment="Left" Header="날짜"
+                                 PlaceholderForeground="LightGray" PlaceholderText="240619" TextChanged="updateIdentifyingComponent" />
+                        <TextBlock x:Name="dateErrorTextBox" Margin="4" FontSize="11" Foreground="Red" Text="날짜 오류" />
+                        <TextBox x:Name="amountTextBox" Width="180" Margin="4" HorizontalAlignment="Left" Header="금액"
+                                 PlaceholderForeground="LightGray" PlaceholderText="금액을 입력하세요." TextChanged="updateIdentifyingComponent" />
                     </StackPanel>
                 </StackPanel>
-                
-                <StackPanel Orientation="Vertical" Margin="0, -10, 0, 0">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        <TextBlock Text="결제 증빙" Margin="10, 0, 0, 0" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
-                        <RadioButtons x:Name="paymentProofTypeRadioButton" MaxColumns="2" Margin="40, 0, 0, 0" SelectedIndex="0" SelectionChanged="updatePaymentProofMethodComponent">
-                            <RadioButton Margin="0, 0, -46, 0" Padding="6">계산서</RadioButton>
-                            <RadioButton Margin="0, 0, -46, 0" Padding="6">카드</RadioButton>
+
+                <StackPanel Margin="0,-10,0,0" Orientation="Vertical">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" FontWeight="Bold" Text="결제 증빙" />
+                        <RadioButtons x:Name="paymentProofTypeRadioButton" Margin="40,0,0,0" MaxColumns="2" SelectedIndex="0" SelectionChanged="updatePaymentProofMethodComponent">
+                            <RadioButton Margin="0,0,-46,0" Padding="6">계산서</RadioButton>
+                            <RadioButton Margin="0,0,-46,0" Padding="6">카드</RadioButton>
                         </RadioButtons>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Padding="10" VerticalAlignment="Top" BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
+                    <StackPanel Padding="10" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#F6F6F6" BorderBrush="DarkGray"
+                                BorderThickness="1" CornerRadius="10" Orientation="Vertical">
                         <StackPanel x:Name="invoicePanel">
-                            <TextBox x:Name="invoiceDateTextBox" Width="110" Header="발행일자" PlaceholderText="0619" PlaceholderForeground="LightGray" HorizontalAlignment="Left" Margin="4" TextChanged="updatePaymentProofMethodComponent"></TextBox>
-                            <TextBlock x:Name="invoiceDateErrorTextBox" Text="발행일자 오류" Margin="4" Foreground="Red" FontSize="11"></TextBlock>
-                            <StackPanel Orientation="Vertical" Padding="0, 10, 0, 10">
-                                <CheckBox x:Name="taxInvoiceCheckBox" Content="계산서" Click="updatePaymentProofMethodComponent"/>
-                                <RadioButtons x:Name="invoiceTypeRadioButtons" MaxColumns="2" SelectedIndex="0" Margin="10, -2, -10, 0" SelectionChanged="updatePaymentProofMethodComponent">
+                            <TextBox x:Name="invoiceDateTextBox" Width="110" Margin="4" HorizontalAlignment="Left" Header="발행일자"
+                                     PlaceholderForeground="LightGray" PlaceholderText="0619" TextChanged="updatePaymentProofMethodComponent" />
+                            <TextBlock x:Name="invoiceDateErrorTextBox" Margin="4" FontSize="11" Foreground="Red" Text="발행일자 오류" />
+                            <StackPanel Padding="0,10,0,10" Orientation="Vertical">
+                                <CheckBox x:Name="taxInvoiceCheckBox" Click="updatePaymentProofMethodComponent" Content="계산서" />
+                                <RadioButtons x:Name="invoiceTypeRadioButtons" Margin="10,-2,-10,0" MaxColumns="2" SelectedIndex="0" SelectionChanged="updatePaymentProofMethodComponent">
                                     <x:String>세금계산서</x:String>
                                     <x:String>면세계산서</x:String>
                                 </RadioButtons>
                             </StackPanel>
-                            <CheckBox x:Name="transactionStatementCheckBox" Content="거래명세서" Click="updatePaymentProofMethodComponent"/>
-                            <TextBlock Text="사업자" Margin="10" FontWeight="Bold"></TextBlock>
-                            <CheckBox x:Name="companyCheckBox" Content="대미기프트" Click="updatePaymentProofMethodComponent"/>
+                            <CheckBox x:Name="transactionStatementCheckBox" Click="updatePaymentProofMethodComponent" Content="거래명세서" />
+                            <TextBlock Margin="10" FontWeight="Bold" Text="사업자" />
+                            <CheckBox x:Name="companyCheckBox" Click="updatePaymentProofMethodComponent" Content="대미기프트" />
                         </StackPanel>
-                        <Frame Height="2" Margin="0, 12, 0, 0" Background="DarkGray"></Frame>
+                        <Frame Height="2" Margin="0,12,0,0" Background="DarkGray" />
                         <StackPanel x:Name="cardPanel">
-                            <RadioButtons x:Name="cardRadioButtons" MaxColumns="1" Margin="0, 4, 0, 0" SelectedIndex="0" SelectionChanged="updatePaymentProofMethodComponent">
+                            <RadioButtons x:Name="cardRadioButtons" Margin="0,4,0,0" MaxColumns="1" SelectedIndex="0" SelectionChanged="updatePaymentProofMethodComponent">
                                 <x:String>비씨카드 결제</x:String>
                                 <x:String>나이스페이 결제</x:String>
                             </RadioButtons>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
-                
-                <StackPanel Orientation="Vertical" Margin="0, -10, 0, 0">
-                    <TextBlock Text="서류" Margin="10, 11, 0, 10" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+
+                <StackPanel Margin="0,-10,0,0" Orientation="Vertical">
+                    <TextBlock Margin="10,11,0,10" VerticalAlignment="Center" FontWeight="Bold" Text="서류" />
                     <StackPanel Orientation="Vertical" Spacing="26">
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Padding="10" VerticalAlignment="Top"
-                                BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
-                            <TextBlock Text="발송 경로" Margin="4" FontWeight="Normal"></TextBlock>
-                            <CheckBox x:Name="sendingEmailCheckBox" Content="메일"
-                                      Click="updateDocumentsDeliveryRouteComponent"/>
-                            <CheckBox x:Name="sendingRegisteredCheckBox" Content="등기" 
-                                      Click="updateDocumentsDeliveryRouteComponent"/>
-                            <TextBox x:Name="documentListTextBox" Width="200" Header="상세 목록" Margin="4"
-                                     PlaceholderText="4대보험완납증명서, ..." PlaceholderForeground="LightGray"
-                                     TextChanged="updateDocumentsDeliveryRouteComponent"></TextBox>
+                        <StackPanel Padding="10" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#F6F6F6" BorderBrush="DarkGray"
+                                    BorderThickness="1" CornerRadius="10" Orientation="Vertical">
+                            <TextBlock Margin="4" FontWeight="Normal" Text="발송 경로" />
+                            <CheckBox x:Name="sendingEmailCheckBox" Click="updateDocumentsDeliveryRouteComponent" Content="메일" />
+                            <CheckBox x:Name="sendingRegisteredCheckBox" Click="updateDocumentsDeliveryRouteComponent" Content="등기" />
+                            <TextBox x:Name="documentListTextBox" Width="200" Margin="4" Header="상세 목록" PlaceholderForeground="LightGray"
+                                     PlaceholderText="4대보험완납증명서, ..." TextChanged="updateDocumentsDeliveryRouteComponent" />
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Padding="10" VerticalAlignment="Top"
-                                    BorderBrush="DarkGray" BorderThickness="1" CornerRadius="10" Background="#F6F6F6">
-                            <TextBox x:Name="emailTextBox" Width="200" Header="발송 이메일" PlaceholderText="example@email.com" PlaceholderForeground="LightGray"
-                                     HorizontalAlignment="Left" Margin="4" 
-                                     TextChanged="updateEmailComponent"></TextBox>
+                        <StackPanel Padding="10" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#F6F6F6" BorderBrush="DarkGray"
+                                    BorderThickness="1" CornerRadius="10" Orientation="Vertical">
+                            <TextBox x:Name="emailTextBox" Width="200" Margin="4" HorizontalAlignment="Left" Header="발송 이메일"
+                                     PlaceholderForeground="LightGray" PlaceholderText="example@email.com" TextChanged="updateEmailComponent" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
 
-        <!--세액 계산-->
+        <!--  세액 계산  -->
         <StackPanel x:Name="taxCalculatorPanel" Orientation="Horizontal">
             <StackPanel Orientation="Vertical">
-                <StackPanel Spacing="14" Padding="10" Background="#EEEEEE" CornerRadius="4">
-                    <StackPanel Orientation="Horizontal" Spacing="20" Padding="36, 0, 0, 0">
-                        <TextBlock Text="수량" Width="100" TextAlignment="Center" FontWeight="Bold"></TextBlock>
-                        <TextBlock Text="금액" Width="130" TextAlignment="Center" FontWeight="Bold"></TextBlock>
-                        <TextBlock Text="단가(VAT제외)" Width="100" TextAlignment="Center" FontWeight="SemiBold" Foreground="Blue"></TextBlock>
-                        <TextBlock Text="공급가액" Width="110" TextAlignment="Center" FontWeight="SemiBold" Foreground="Blue"></TextBlock>
-                        <TextBlock Text="세액" Width="100" TextAlignment="Center" FontWeight="SemiBold" Foreground="Blue"></TextBlock>
+                <StackPanel Padding="10" Background="#EEEEEE" CornerRadius="4" Spacing="12">
+                    <StackPanel Padding="36,0,0,0" Orientation="Horizontal" Spacing="20">
+                        <TextBlock Width="100" FontWeight="Bold" Text="수량" TextAlignment="Center" />
+                        <TextBlock Width="130" FontWeight="Bold" Text="금액" TextAlignment="Center" />
+                        <TextBlock Width="100" FontWeight="SemiBold" Foreground="Blue" Text="단가(VAT제외)" TextAlignment="Center" />
+                        <TextBlock Width="110" FontWeight="SemiBold" Foreground="Blue" Text="공급가액" TextAlignment="Center" />
+                        <TextBlock Width="100" FontWeight="SemiBold" Foreground="Blue" Text="세액" TextAlignment="Center" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="20">
-                        <TextBlock Text="1" FontWeight="SemiBold" Padding="8, 3, 0, 0"></TextBlock>
-                        <TextBox x:Name="quantity1" Tag="1" Width="100" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="amount1" Tag="1" Width="130" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="unitPrice1" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVOS1" Width="110" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVAT1" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
+                    <StackPanel x:Name="itemStackPanel1" Orientation="Horizontal" Spacing="20">
+                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="1" />
+                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[0].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[0].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[0].UnitPrice}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[0].VOS}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[0].VAT}"
+                                 TextAlignment="Right" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="20">
-                        <TextBlock Text="2" FontWeight="SemiBold" Padding="8, 3, 0, 0"></TextBlock>
-                        <TextBox x:Name="quantity2" Tag="1" Width="100" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="amount2" Tag="1" Width="130" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="unitPrice2" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVOS2" Width="110" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVAT2" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
+                    <StackPanel x:Name="itemStackPanel2" Orientation="Horizontal" Spacing="20">
+                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="2" />
+                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[1].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[1].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[1].UnitPrice}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[1].VOS}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[1].VAT}"
+                                 TextAlignment="Right" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="20">
-                        <TextBlock Text="3" FontWeight="SemiBold" Padding="8, 3, 0, 0"></TextBlock>
-                        <TextBox x:Name="quantity3" Tag="1" Width="100" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="amount3" Tag="1" Width="130" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="unitPrice3" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVOS3" Width="110" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVAT3" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
+                    <StackPanel x:Name="itemStackPanel3" Orientation="Horizontal" Spacing="20">
+                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="3" />
+                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[2].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[2].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[2].UnitPrice}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[2].VOS}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[2].VAT}"
+                                 TextAlignment="Right" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="20">
-                        <TextBlock Text="4" FontWeight="SemiBold" Padding="8, 3, 0, 0"></TextBlock>
-                        <TextBox x:Name="quantity4" Tag="1" Width="100" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="amount4" Tag="1" Width="130" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="unitPrice4" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVOS4" Width="110" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVAT4" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
+                    <StackPanel x:Name="itemStackPanel4" Orientation="Horizontal" Spacing="20">
+                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="4" />
+                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[3].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[3].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[3].UnitPrice}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[3].VOS}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[3].VAT}"
+                                 TextAlignment="Right" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="20">
-                        <TextBlock Text="5" FontWeight="SemiBold" Padding="8, 3, 0, 0"></TextBlock>
-                        <TextBox x:Name="quantity5" Tag="1" Width="100" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="amount5" Tag="1" Width="130" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="unitPrice5" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVOS5" Width="110" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVAT5" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
+                    <StackPanel x:Name="itemStackPanel5" Orientation="Horizontal" Spacing="20">
+                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="5" />
+                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[4].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[4].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[4].UnitPrice}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[4].VOS}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[4].VAT}"
+                                 TextAlignment="Right" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="20">
-                        <TextBlock Text="6" FontWeight="SemiBold" Padding="8, 3, 0, 0"></TextBlock>
-                        <TextBox x:Name="quantity6" Tag="1" Width="100" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="amount6" Tag="1" Width="130" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="unitPrice6" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVOS6" Width="110" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVAT6" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
+                    <StackPanel x:Name="itemStackPanel6" Orientation="Horizontal" Spacing="20">
+                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="6" />
+                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[5].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[5].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[5].UnitPrice}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[5].VOS}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[5].VAT}"
+                                 TextAlignment="Right" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="20">
-                        <TextBlock Text="7" FontWeight="SemiBold" Padding="8, 3, 0, 0"></TextBlock>
-                        <TextBox x:Name="quantity7" Tag="1" Width="100" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="amount7" Tag="1" Width="130" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="unitPrice7" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVOS7" Width="110" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVAT7" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
+                    <StackPanel x:Name="itemStackPanel7" Orientation="Horizontal" Spacing="20">
+                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="7" />
+                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[6].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[6].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[6].UnitPrice}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[6].VOS}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[6].VAT}"
+                                 TextAlignment="Right" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="20">
-                        <TextBlock Text="8" FontWeight="SemiBold" Padding="8, 3, 0, 0"></TextBlock>
-                        <TextBox x:Name="quantity8" Tag="1" Width="100" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="amount8" Tag="1" Width="130" TextAlignment="Right"
-                                 BorderBrush="Black" CornerRadius="0"
-                                 TextChanged="calculateTax"></TextBox>
-                        <TextBox x:Name="unitPrice8" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVOS8" Width="110" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
-                        <TextBox x:Name="totalVAT8" Width="100" TextAlignment="Right" IsReadOnly="True" IsTabStop="False"
-                                 BorderBrush="Gray" CornerRadius="0" Background="LightYellow"></TextBox>
+                    <StackPanel x:Name="itemStackPanel8" Orientation="Horizontal" Spacing="20">
+                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="8" />
+                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[7].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding ItemInfos[7].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[7].UnitPrice}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[7].VOS}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding ItemInfos[7].VAT}"
+                                 TextAlignment="Right" />
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Spacing="6">
-                    <TextBlock Text="총 금액:" Margin="102, 0, 0, 0" VerticalAlignment="Center" FontWeight="SemiBold" Padding="8, 3, 0, 0"></TextBlock>
-                    <TextBox x:Name="totalAmountTextBox" Margin="0, 10, 0, 0" Width="130" FontWeight="Bold" TextAlignment="Right" IsReadOnly="True" IsTabStop="False" BorderBrush="Gray" CornerRadius="0" Background="Orange"></TextBox>
+                <StackPanel Margin="110,10,0,0" VerticalAlignment="Top" Orientation="Horizontal" Spacing="6">
+                    <TextBlock Padding="0,0,0,5" VerticalAlignment="Center" FontWeight="SemiBold" Text="총 금액:" />
+                    <TextBox x:Name="totalAmountTextBox" Width="130" Background="Orange" BorderBrush="Gray" CornerRadius="0"
+                             FontWeight="Bold" IsReadOnly="True" IsTabStop="False"
+                             Text="{Binding TotalAmount}"
+                             TextAlignment="Right" />
+                </StackPanel>
+                <Frame Height="1" Margin="0,10,0,0" Background="Gray" />
+                <StackPanel Orientation="Vertical">
+                    <StackPanel x:Name="extraItemStackPanel" Margin="0,10,0,0" Padding="11,6,0,6" Orientation="Horizontal" Spacing="20">
+                        <TextBlock x:Name="extraItemTitleTextBlock" Padding="8,3,0,0" FontWeight="SemiBold" Text="E" />
+                        <TextBox Width="100" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 Text="{Binding DeductedItemInfo.Quantity}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="130" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 Text="{Binding DeductedItemInfo.Amount}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding DeductedItemInfo.UnitPrice}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding DeductedItemInfo.VOS}"
+                                 TextAlignment="Right" />
+                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Text="{Binding DeductedItemInfo.VAT}"
+                                 TextAlignment="Right" />
+                    </StackPanel>
+                    <StackPanel Margin="50,0,0,0" Padding="8,8,8,8" CornerRadius="4" Orientation="Horizontal" Spacing="6">
+                        <TextBlock x:Name="deductedTotalAmountTextBlock" Padding="0,0,0,5" VerticalAlignment="Center" FontWeight="SemiBold" Text="공제 후 총 금액:" />
+                        <TextBox x:Name="deductedTotalAmountTextBox" Width="130" VerticalAlignment="Top" Background="Orange" BorderBrush="Gray"
+                                 CornerRadius="0" FontWeight="Bold" IsReadOnly="True" IsTabStop="False"
+                                 Text="{Binding DeductedTotalAmout}"
+                                 TextAlignment="Right" />
+                        <TextBlock Margin="18,0,0,0" Padding="0,0,0,4" VerticalAlignment="Center" FontWeight="SemiBold" Text="공제" />
+                        <CheckBox x:Name="deductionCheckBox" Margin="0,0,-100,0" Click="deductionCheckBox_Click"
+                                  IsChecked="{Binding IsEnableDeduction, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                        <TextBlock x:Name="deductionRateTextBlock" Margin="18,0,0,0" Padding="0,0,0,4" VerticalAlignment="Center" FontWeight="SemiBold"
+                                   Text="비율" />
+                        <TextBox x:Name="deductionRateTextBox" Width="30" Margin="6,0,0,0" BorderBrush="Black" CornerRadius="0"
+                                 Text="{Binding DeductionRate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextAlignment="Right" />
+                        <TextBlock x:Name="deductingTargetTextBlock" Margin="18,0,0,0" Padding="0,0,0,4" VerticalAlignment="Center" FontWeight="SemiBold"
+                                   Text="공제 대상" />
+                        <ComboBox x:Name="deductingTargetComboBox" SelectedIndex="{Binding DeductingRow, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                            <ComboBoxItem>1</ComboBoxItem>
+                            <ComboBoxItem>2</ComboBoxItem>
+                            <ComboBoxItem>3</ComboBoxItem>
+                            <ComboBoxItem>4</ComboBoxItem>
+                            <ComboBoxItem>5</ComboBoxItem>
+                            <ComboBoxItem>6</ComboBoxItem>
+                            <ComboBoxItem>7</ComboBoxItem>
+                            <ComboBoxItem>8</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0">
-                <Button x:Name="resetButton" Background="Red" Foreground="White" Click="resetButton_Click">초기화</Button>
-            </StackPanel>
+            <Button x:Name="resetButton" Margin="20,0,0,0" VerticalAlignment="Top" Background="Red" Click="resetButton_Click"
+                    Foreground="White">
+                초기화
+            </Button>
         </StackPanel>
     </StackPanel>
 </Window>
