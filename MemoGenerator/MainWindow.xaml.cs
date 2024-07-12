@@ -2,6 +2,7 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
@@ -35,12 +36,12 @@ namespace MemoGenerator
         private string emailComponent = "";
 
         private TaxCalculatingModel taxCalculatingModel = new TaxCalculatingModel();
-        
+
         public MainWindow()
         {
             this.InitializeComponent();
 
-            panels = new StackPanel[]{ memoGeneratorPanel, taxCalculatorPanel };
+            panels = new StackPanel[] { memoGeneratorPanel, taxCalculatorPanel };
             foreach (var panel in panels)
             {
                 panel.Visibility = Visibility.Collapsed;
@@ -106,7 +107,7 @@ namespace MemoGenerator
             {
                 text += $" {emailComponent}";
             }
-            
+
             memoTextBox.Text = text;
         }
 
@@ -136,11 +137,11 @@ namespace MemoGenerator
                 dateErrorTextBox.Visibility = Visibility.Visible;
             }
 
-            if (Int32.TryParse(amountTextBox.Text, out int amount) && amount != 0) 
+            if (Int32.TryParse(amountTextBox.Text, out int amount) && amount != 0)
             {
                 elements.Add(amount.ToString("C"));
             }
-            
+
             identifyingComponent = String.Join(" ", elements);
             updateMemoTextBlock();
         }
@@ -301,6 +302,7 @@ namespace MemoGenerator
         {
             taxCalculatingModel.initializeItemInfos();
             taxCalculatingModel.propertyChanged(null);
+            disableDeductionGroup();
         }
 
         private void deductionCheckBox_Click(object sender, RoutedEventArgs e)
@@ -311,6 +313,8 @@ namespace MemoGenerator
 
         private void disableDeductionGroup()
         {
+            deductionCheckBox.IsChecked = false;
+
             deductedTotalAmountTextBox.IsEnabled = false;
             deductingTargetComboBox.IsEnabled = false;
             deductionRateTextBox.IsEnabled = false;
@@ -326,11 +330,16 @@ namespace MemoGenerator
             deductionRateTextBlock.Foreground = new SolidColorBrush(Colors.LightGray);
             deductingTargetTextBlock.Foreground = new SolidColorBrush(Colors.LightGray);
 
-            //totalAmountTextBox.Content = TextDecorations.None;
+            totalAmountStrikethrough.Visibility = Visibility.Collapsed;
+            totalAmountTextBox.Background = new SolidColorBrush(Colors.Orange);
+
+            itemsStrikethrough.Visibility = Visibility.Collapsed;
         }
 
         private void enableDeductionGroup()
         {
+            deductionCheckBox.IsChecked = true;
+
             deductedTotalAmountTextBox.IsEnabled = true;
             deductingTargetComboBox.IsEnabled = true;
             deductionRateTextBox.IsEnabled = true;
@@ -346,16 +355,22 @@ namespace MemoGenerator
             deductionRateTextBlock.Foreground = new SolidColorBrush(Colors.Black);
             deductingTargetTextBlock.Foreground = new SolidColorBrush(Colors.Black);
 
-            //totalAmountTextBox.TextDecorations = TextDecorations.Strikethrough;
+            totalAmountStrikethrough.Visibility = Visibility.Visible;
+            totalAmountTextBox.Background = new SolidColorBrush(Colors.PapayaWhip);
 
-            //StackPanel itemStackPanel = (StackPanel)taxCalculatorPanel.FindName($"itemStackPanel{deductingTargetComboBox.SelectedIndex}");
-            //List<Control> itemStackPanelControls = new List<Control>();
+            placeItemsStrikethrough();
+        }
 
-            //retrieveAllChildControls(itemStackPanel, itemStackPanelControls);
-            //foreach (var control in itemStackPanelControls)
-            //{
-            //    control.IsEnabled = false;
-            //}
+        private void placeItemsStrikethrough()
+        {
+            itemsStrikethrough.Visibility = Visibility.Visible;
+            const int firstTop = 41;
+            const int topToMiddle = 15;
+            const int middleToBottom = 16;
+            const int spacing = 13;
+            int rowNumber = taxCalculatingModel.deductingRow + 1;
+            int positionY = firstTop + (topToMiddle * rowNumber) + (middleToBottom * (rowNumber - 1)) + (spacing * (rowNumber - 1));
+            Canvas.SetTop(itemsStrikethrough, positionY);
         }
 
         private void retrieveAllChildControls(Panel panel, in List<Control> store)
@@ -372,6 +387,11 @@ namespace MemoGenerator
                     store.Add((Control)element);
                 }
             }
+        }
+
+        private void deductingTargetComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            placeItemsStrikethrough();
         }
     }
 }

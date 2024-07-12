@@ -100,209 +100,220 @@
         <!--  세액 계산  -->
         <StackPanel x:Name="taxCalculatorPanel" Orientation="Horizontal">
             <StackPanel Orientation="Vertical">
-                <StackPanel Padding="10" Background="#EEEEEE" CornerRadius="4" Spacing="12">
-                    <StackPanel Padding="36,0,0,0" Orientation="Horizontal" Spacing="20">
-                        <TextBlock Width="100" FontWeight="Bold" Text="수량" TextAlignment="Center" />
-                        <TextBlock Width="130" FontWeight="Bold" Text="금액" TextAlignment="Center" />
-                        <TextBlock Width="100" FontWeight="SemiBold" Foreground="Blue" Text="단가(VAT제외)" TextAlignment="Center" />
-                        <TextBlock Width="110" FontWeight="SemiBold" Foreground="Blue" Text="공급가액" TextAlignment="Center" />
-                        <TextBlock Width="100" FontWeight="SemiBold" Foreground="Blue" Text="세액" TextAlignment="Center" />
+                <Canvas x:Name="itemsCanvas" Width="680" Height="390">
+                    <StackPanel Width="680" Height="390" Padding="10" Background="#EEEEEE" CornerRadius="4"
+                                Spacing="12">
+                        <StackPanel Padding="36,0,0,0" Orientation="Horizontal" Spacing="20">
+                            <TextBlock Width="100" FontWeight="Bold" Text="수량" TextAlignment="Center" />
+                            <TextBlock Width="130" FontWeight="Bold" Text="금액" TextAlignment="Center" />
+                            <TextBlock Width="100" FontWeight="SemiBold" Foreground="Blue" Text="단가(VAT제외)" TextAlignment="Center" />
+                            <TextBlock Width="110" FontWeight="SemiBold" Foreground="Blue" Text="공급가액" TextAlignment="Center" />
+                            <TextBlock Width="100" FontWeight="SemiBold" Foreground="Blue" Text="세액" TextAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel x:Name="itemStackPanel1" Orientation="Horizontal" Spacing="20">
+                            <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="1" />
+                            <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[0].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[0].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[0].UnitPrice}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[0].VOS}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[0].VAT}"
+                                     TextAlignment="Right" />
+                        </StackPanel>
+                        <StackPanel x:Name="itemStackPanel2" Orientation="Horizontal" Spacing="20">
+                            <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="2" />
+                            <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[1].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[1].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[1].UnitPrice}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[1].VOS}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[1].VAT}"
+                                     TextAlignment="Right" />
+                        </StackPanel>
+                        <StackPanel x:Name="itemStackPanel3" Orientation="Horizontal" Spacing="20">
+                            <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="3" />
+                            <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[2].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[2].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[2].UnitPrice}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[2].VOS}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[2].VAT}"
+                                     TextAlignment="Right" />
+                        </StackPanel>
+                        <StackPanel x:Name="itemStackPanel4" Orientation="Horizontal" Spacing="20">
+                            <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="4" />
+                            <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[3].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[3].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[3].UnitPrice}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[3].VOS}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[3].VAT}"
+                                     TextAlignment="Right" />
+                        </StackPanel>
+                        <StackPanel x:Name="itemStackPanel5" Orientation="Horizontal" Spacing="20">
+                            <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="5" />
+                            <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[4].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[4].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[4].UnitPrice}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[4].VOS}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[4].VAT}"
+                                     TextAlignment="Right" />
+                        </StackPanel>
+                        <StackPanel x:Name="itemStackPanel6" Orientation="Horizontal" Spacing="20">
+                            <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="6" />
+                            <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[5].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[5].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[5].UnitPrice}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[5].VOS}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[5].VAT}"
+                                     TextAlignment="Right" />
+                        </StackPanel>
+                        <StackPanel x:Name="itemStackPanel7" Orientation="Horizontal" Spacing="20">
+                            <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="7" />
+                            <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[6].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[6].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[6].UnitPrice}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[6].VOS}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[6].VAT}"
+                                     TextAlignment="Right" />
+                        </StackPanel>
+                        <StackPanel x:Name="itemStackPanel8" Orientation="Horizontal" Spacing="20">
+                            <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="8" />
+                            <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[7].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
+                                     Text="{Binding ItemInfos[7].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[7].UnitPrice}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[7].VOS}"
+                                     TextAlignment="Right" />
+                            <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                     IsTabStop="False"
+                                     Text="{Binding ItemInfos[7].VAT}"
+                                     TextAlignment="Right" />
+                        </StackPanel>
                     </StackPanel>
-                    <StackPanel x:Name="itemStackPanel1" Orientation="Horizontal" Spacing="20">
-                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="1" />
-                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[0].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[0].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[0].UnitPrice}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[0].VOS}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[0].VAT}"
-                                 TextAlignment="Right" />
-                    </StackPanel>
-                    <StackPanel x:Name="itemStackPanel2" Orientation="Horizontal" Spacing="20">
-                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="2" />
-                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[1].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[1].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[1].UnitPrice}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[1].VOS}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[1].VAT}"
-                                 TextAlignment="Right" />
-                    </StackPanel>
-                    <StackPanel x:Name="itemStackPanel3" Orientation="Horizontal" Spacing="20">
-                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="3" />
-                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[2].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[2].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[2].UnitPrice}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[2].VOS}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[2].VAT}"
-                                 TextAlignment="Right" />
-                    </StackPanel>
-                    <StackPanel x:Name="itemStackPanel4" Orientation="Horizontal" Spacing="20">
-                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="4" />
-                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[3].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[3].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[3].UnitPrice}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[3].VOS}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[3].VAT}"
-                                 TextAlignment="Right" />
-                    </StackPanel>
-                    <StackPanel x:Name="itemStackPanel5" Orientation="Horizontal" Spacing="20">
-                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="5" />
-                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[4].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[4].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[4].UnitPrice}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[4].VOS}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[4].VAT}"
-                                 TextAlignment="Right" />
-                    </StackPanel>
-                    <StackPanel x:Name="itemStackPanel6" Orientation="Horizontal" Spacing="20">
-                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="6" />
-                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[5].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[5].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[5].UnitPrice}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[5].VOS}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[5].VAT}"
-                                 TextAlignment="Right" />
-                    </StackPanel>
-                    <StackPanel x:Name="itemStackPanel7" Orientation="Horizontal" Spacing="20">
-                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="7" />
-                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[6].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[6].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[6].UnitPrice}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[6].VOS}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[6].VAT}"
-                                 TextAlignment="Right" />
-                    </StackPanel>
-                    <StackPanel x:Name="itemStackPanel8" Orientation="Horizontal" Spacing="20">
-                        <TextBlock Padding="8,3,0,0" FontWeight="SemiBold" Text="8" />
-                        <TextBox Width="100" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[7].Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="130" BorderBrush="Black" CornerRadius="0"
-                                 Text="{Binding ItemInfos[7].Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[7].UnitPrice}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[7].VOS}"
-                                 TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
-                                 IsTabStop="False"
-                                 Text="{Binding ItemInfos[7].VAT}"
-                                 TextAlignment="Right" />
-                    </StackPanel>
-                </StackPanel>
+                    <Frame x:Name="itemsStrikethrough" Canvas.Left="12" Canvas.Top="129" Width="660" Height="1"
+                           Background="Red" />
+                </Canvas>
                 <StackPanel Margin="110,10,0,0" VerticalAlignment="Top" Orientation="Horizontal" Spacing="6">
-                    <TextBlock Padding="0,0,0,5" VerticalAlignment="Center" FontWeight="SemiBold" Text="총 금액:" />
-                    <TextBox x:Name="totalAmountTextBox" Width="130" Background="Orange" BorderBrush="Gray" CornerRadius="0"
-                             FontWeight="Bold" IsReadOnly="True" IsTabStop="False"
-                             Text="{Binding TotalAmount}"
-                             TextAlignment="Right" />
+                    <TextBlock Margin="0,6,0,0" Padding="0,0,0,0" VerticalAlignment="Center" FontWeight="SemiBold" Text="총 금액:" />
+                    <Canvas>
+                        <TextBox x:Name="totalAmountTextBox" Width="130" Background="PapayaWhip" BorderBrush="Gray" CornerRadius="0"
+                                 FontWeight="Bold" IsReadOnly="True" IsTabStop="False"
+                                 Text="{Binding TotalAmount}"
+                                 TextAlignment="Right" />
+                        <Frame x:Name="totalAmountStrikethrough" Canvas.Left="-58" Canvas.Top="15" Width="190" Height="1"
+                               Background="Red" />
+                    </Canvas>
                 </StackPanel>
-                <Frame Height="1" Margin="0,10,0,0" Background="Gray" />
+                <Frame Height="1" Margin="0,22,0,0" Background="Gray" />
                 <StackPanel Orientation="Vertical">
                     <StackPanel x:Name="extraItemStackPanel" Margin="0,10,0,0" Padding="11,6,0,6" Orientation="Horizontal" Spacing="20">
                         <TextBlock x:Name="extraItemTitleTextBlock" Padding="8,3,0,0" FontWeight="SemiBold" Text="E" />
-                        <TextBox Width="100" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                        <TextBox Width="100" Background="Gold" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
                                  Text="{Binding DeductedItemInfo.Quantity}"
                                  TextAlignment="Right" />
-                        <TextBox Width="130" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                        <TextBox Width="130" Background="Gold" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                                 IsTabStop="False"
                                  Text="{Binding DeductedItemInfo.Amount}"
                                  TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                        <TextBox Width="100" Background="Gold" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
                                  IsTabStop="False"
                                  Text="{Binding DeductedItemInfo.UnitPrice}"
                                  TextAlignment="Right" />
-                        <TextBox Width="110" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                        <TextBox Width="110" Background="Gold" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
                                  IsTabStop="False"
                                  Text="{Binding DeductedItemInfo.VOS}"
                                  TextAlignment="Right" />
-                        <TextBox Width="100" Background="LightYellow" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
+                        <TextBox Width="100" Background="Gold" BorderBrush="Gray" CornerRadius="0" IsReadOnly="True"
                                  IsTabStop="False"
                                  Text="{Binding DeductedItemInfo.VAT}"
                                  TextAlignment="Right" />
@@ -323,7 +334,9 @@
                                  TextAlignment="Right" />
                         <TextBlock x:Name="deductingTargetTextBlock" Margin="18,0,0,0" Padding="0,0,0,4" VerticalAlignment="Center" FontWeight="SemiBold"
                                    Text="공제 대상" />
-                        <ComboBox x:Name="deductingTargetComboBox" SelectedIndex="{Binding DeductingRow, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                        <ComboBox x:Name="deductingTargetComboBox"
+                                  SelectedIndex="{Binding DeductingRow, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                  SelectionChanged="deductingTargetComboBox_SelectionChanged">
                             <ComboBoxItem>1</ComboBoxItem>
                             <ComboBoxItem>2</ComboBoxItem>
                             <ComboBoxItem>3</ComboBoxItem>

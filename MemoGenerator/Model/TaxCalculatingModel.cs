@@ -88,6 +88,10 @@ namespace MemoGenerator
                 propertyChanged("UnitPrice");
                 propertyChanged("VOS");
                 propertyChanged("VAT");
+                if (owner.TryGetTarget(out var target))
+                {
+                    target.propertyChanged("DeductedItemInfo");
+                }
             }
         }
         public string Amount
@@ -110,6 +114,8 @@ namespace MemoGenerator
                 if (owner.TryGetTarget(out var target))
                 {
                     target.propertyChanged("TotalAmount");
+                    target.propertyChanged("DeductedItemInfo");
+                    target.propertyChanged("DeductedTotalAmout");
                 }
             }
         }
@@ -154,7 +160,7 @@ namespace MemoGenerator
         internal ItemInfo[] itemInfos;
         bool isEnableDeduction = false;
         double deductionRate = 0; // % 단위
-        int deductingRow = 0;
+        internal int deductingRow = 0;
         ItemInfo deductedItemInfo
         {
             get
@@ -210,7 +216,8 @@ namespace MemoGenerator
             {
                 if (double.TryParse(value, out double result)) { deductionRate = result; }
                 else { deductionRate = 0; }
-                propertyChanged("");
+                propertyChanged("DeductedItemInfo");
+                propertyChanged("DeductedTotalAmout");
             }
         }
 
@@ -220,7 +227,8 @@ namespace MemoGenerator
             set
             {
                 deductingRow = value;
-                propertyChanged("");
+                propertyChanged("DeductedItemInfo");
+                propertyChanged("DeductedTotalAmout");
             }
         }
 
