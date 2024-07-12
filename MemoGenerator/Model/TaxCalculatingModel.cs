@@ -14,29 +14,9 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace MemoGenerator
 {
-    public class NumberConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            int number = (int)value;
-            return number.ToString();
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            string strValue = value as string;
-            int number;
-            if (int.TryParse(strValue, out number))
-            {
-                return number;
-            }
-            return DependencyProperty.UnsetValue;
-        }
-    }
-
     sealed class ItemInfo : BaseINotifyPropertyChanged
     {
-        internal WeakReference<BaseINotifyPropertyChanged> owner;
+        internal WeakReference<TaxCalculatingModel> owner;
 
         internal int? quantity;
         internal int? amount;
@@ -88,7 +68,7 @@ namespace MemoGenerator
                 propertyChanged("UnitPrice");
                 propertyChanged("VOS");
                 propertyChanged("VAT");
-                if (owner.TryGetTarget(out var target))
+                if (owner.TryGetTarget(out var target) && target.IsEnableDeduction)
                 {
                     target.propertyChanged("DeductedItemInfo");
                 }
@@ -114,8 +94,11 @@ namespace MemoGenerator
                 if (owner.TryGetTarget(out var target))
                 {
                     target.propertyChanged("TotalAmount");
-                    target.propertyChanged("DeductedItemInfo");
-                    target.propertyChanged("DeductedTotalAmout");
+                    if (target.IsEnableDeduction)
+                    {
+                        target.propertyChanged("DeductedItemInfo");
+                        target.propertyChanged("DeductedTotalAmout");
+                    }
                 }
             }
         }
@@ -193,7 +176,7 @@ namespace MemoGenerator
             for (int i = 0; i < maxItemCount; ++i)
             {
                 var itemInfo = new ItemInfo();
-                itemInfo.owner = new WeakReference<BaseINotifyPropertyChanged>(this);
+                itemInfo.owner = new WeakReference<TaxCalculatingModel>(this);
                 itemInfos[i] = itemInfo;
             }
         }

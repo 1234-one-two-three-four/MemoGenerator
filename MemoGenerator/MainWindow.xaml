@@ -2,10 +2,6 @@
 <Window x:Class="MemoGenerator.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="using:MemoGenerator"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
     <StackPanel Margin="18" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal" Spacing="30">
-        <StackPanel.Resources>
-            <local:NumberConverter x:Key="NumberConverter" />
-        </StackPanel.Resources>
-
         <StackPanel Margin="2,0,-4,0" Orientation="Vertical" Spacing="12">
             <Button x:Name="memoGeneratorSideButton" Background="DarkBlue" Click="changePanel" Foreground="White" Tag="0">
                 메모 생성
