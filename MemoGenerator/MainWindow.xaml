@@ -101,7 +101,7 @@
                                 Spacing="12">
                         <StackPanel Padding="36,0,0,0" Orientation="Horizontal" Spacing="20">
                             <TextBlock Width="100" FontWeight="Bold" Text="수량" TextAlignment="Center" />
-                            <TextBlock Width="130" FontWeight="Bold" Text="금액" TextAlignment="Center" />
+                            <TextBlock Width="130" FontWeight="Bold" Text="총 금액" TextAlignment="Center" />
                             <TextBlock Width="100" FontWeight="SemiBold" Foreground="Blue" Text="단가(VAT제외)" TextAlignment="Center" />
                             <TextBlock Width="110" FontWeight="SemiBold" Foreground="Blue" Text="공급가액" TextAlignment="Center" />
                             <TextBlock Width="100" FontWeight="SemiBold" Foreground="Blue" Text="세액" TextAlignment="Center" />
@@ -278,14 +278,14 @@
                     <Frame x:Name="itemsStrikethrough" Canvas.Left="12" Canvas.Top="129" Width="660" Height="1"
                            Background="Red" />
                 </Canvas>
-                <StackPanel Margin="110,10,0,0" VerticalAlignment="Top" Orientation="Horizontal" Spacing="6">
-                    <TextBlock Margin="0,6,0,0" Padding="0,0,0,0" VerticalAlignment="Center" FontWeight="SemiBold" Text="총 금액:" />
+                <StackPanel Margin="96,10,0,0" VerticalAlignment="Top" Orientation="Horizontal" Spacing="6">
+                    <TextBlock Margin="0,6,0,0" Padding="0,0,0,0" VerticalAlignment="Center" FontWeight="SemiBold" Text="합계 금액:" />
                     <Canvas>
                         <TextBox x:Name="totalAmountTextBox" Width="130" Background="PapayaWhip" BorderBrush="Gray" CornerRadius="0"
                                  FontWeight="Bold" IsReadOnly="True" IsTabStop="False"
                                  Text="{Binding TotalAmount}"
                                  TextAlignment="Right" />
-                        <Frame x:Name="totalAmountStrikethrough" Canvas.Left="-58" Canvas.Top="15" Width="190" Height="1"
+                        <Frame x:Name="totalAmountStrikethrough" Canvas.Left="-74" Canvas.Top="15" Width="210" Height="1"
                                Background="Red" />
                     </Canvas>
                 </StackPanel>
@@ -314,8 +314,8 @@
                                  Text="{Binding DeductedItemInfo.VAT}"
                                  TextAlignment="Right" />
                     </StackPanel>
-                    <StackPanel Margin="50,0,0,0" Padding="8,8,8,8" CornerRadius="4" Orientation="Horizontal" Spacing="6">
-                        <TextBlock x:Name="deductedTotalAmountTextBlock" Padding="0,0,0,5" VerticalAlignment="Center" FontWeight="SemiBold" Text="공제 후 총 금액:" />
+                    <StackPanel Margin="36,0,0,0" Padding="8,8,8,8" CornerRadius="4" Orientation="Horizontal" Spacing="6">
+                        <TextBlock x:Name="deductedTotalAmountTextBlock" Padding="0,0,0,5" VerticalAlignment="Center" FontWeight="SemiBold" Text="공제 후 합계 금액:" />
                         <TextBox x:Name="deductedTotalAmountTextBox" Width="130" VerticalAlignment="Top" Background="Orange" BorderBrush="Gray"
                                  CornerRadius="0" FontWeight="Bold" IsReadOnly="True" IsTabStop="False"
                                  Text="{Binding DeductedTotalAmout}"
