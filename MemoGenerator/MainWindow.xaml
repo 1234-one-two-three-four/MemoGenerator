@@ -37,10 +37,12 @@
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Margin="0,-10,0,0" Orientation="Vertical">
+                <StackPanel x:Name="paymentProofStackPanel" Margin="0,-10,0,0" Orientation="Vertical">
                     <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                         <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" FontWeight="Bold" Text="결제 증빙" />
-                        <RadioButtons x:Name="paymentProofTypeRadioButton" Margin="40,0,0,0" MaxColumns="2" SelectedIndex="0" SelectionChanged="updatePaymentProofMethodComponent">
+                        <RadioButtons x:Name="paymentProofTypeRadioButton" Margin="40,0,0,0" MaxColumns="2"
+                                      SelectedIndex="{Binding SelectedPaymentProofTypeIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                      SelectionChanged="updatePaymentProofMethodComponent">
                             <RadioButton Margin="0,0,-46,0" Padding="6">계산서</RadioButton>
                             <RadioButton Margin="0,0,-46,0" Padding="6">카드</RadioButton>
                         </RadioButtons>
@@ -48,25 +50,57 @@
                     <StackPanel Padding="10" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#F6F6F6" BorderBrush="DarkGray"
                                 BorderThickness="1" CornerRadius="10" Orientation="Vertical">
                         <StackPanel x:Name="invoicePanel">
-                            <TextBox x:Name="invoiceDateTextBox" Width="110" Margin="4" HorizontalAlignment="Left" Header="발행일자"
-                                     PlaceholderForeground="LightGray" PlaceholderText="0619" TextChanged="updatePaymentProofMethodComponent" />
-                            <TextBlock x:Name="invoiceDateErrorTextBox" Margin="4" FontSize="11" Foreground="Red" Text="발행일자 오류" />
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                <TextBox x:Name="invoiceDateTextBox" Width="110" Margin="4" HorizontalAlignment="Left" Header="발행일자"
+                                         IsEnabled="{Binding EnableInvoice}"
+                                         PlaceholderForeground="LightGray" PlaceholderText="0619"
+                                         Text="{Binding InvoiceInfo.Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                         TextChanged="updatePaymentProofMethodComponent" />
+                                <CheckBox x:Name="invoiceDateTodayCheckbox" Margin="8,26,0,0" Click="updatePaymentProofMethodComponent" Content="금일"
+                                          IsChecked="{Binding InvoiceInfo.IsToday, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                          IsEnabled="{Binding EnableInvoice}" />
+                            </StackPanel>
+                            <TextBlock x:Name="invoiceDateErrorTextBox" Margin="4" FontSize="11" Foreground="Red" Text="발행일자 오류"
+                                       Visibility="{Binding InvoiceInfo.IsVisibleDateError}" />
                             <StackPanel Padding="0,10,0,10" Orientation="Vertical">
-                                <CheckBox x:Name="taxInvoiceCheckBox" Click="updatePaymentProofMethodComponent" Content="계산서" />
-                                <RadioButtons x:Name="invoiceTypeRadioButtons" Margin="10,-2,-10,0" MaxColumns="2" SelectedIndex="0" SelectionChanged="updatePaymentProofMethodComponent">
+                                <CheckBox x:Name="taxInvoiceCheckBox" Click="updatePaymentProofMethodComponent" Content="계산서"
+                                          IsChecked="{Binding InvoiceInfo.IncludesInvoice, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                          IsEnabled="{Binding EnableInvoice}" />
+                                <RadioButtons x:Name="invoiceTypeRadioButtons" Margin="10,-2,-10,0"
+                                              IsEnabled="{Binding EnableInvoiceTypeRadioButtons}"
+                                              MaxColumns="2"
+                                              SelectedIndex="{Binding InvoiceInfo.SelectedInvoiceTypeIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                              SelectionChanged="updatePaymentProofMethodComponent">
                                     <x:String>세금계산서</x:String>
                                     <x:String>면세계산서</x:String>
                                 </RadioButtons>
                             </StackPanel>
-                            <CheckBox x:Name="transactionStatementCheckBox" Click="updatePaymentProofMethodComponent" Content="거래명세서" />
-                            <TextBlock Margin="10" FontWeight="Bold" Text="사업자" />
-                            <CheckBox x:Name="companyCheckBox" Click="updatePaymentProofMethodComponent" Content="대미기프트" />
+                            <CheckBox x:Name="transactionStatementCheckBox" Click="updatePaymentProofMethodComponent" Content="거래명세서"
+                                      IsChecked="{Binding InvoiceInfo.IncludesTransactionSpecification, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                      IsEnabled="{Binding EnableInvoice}" />
+                            <TextBlock Margin="10" FontWeight="Bold"
+                                       Foreground="{Binding InvoiceHeaderColor}"
+                                       Text="사업자" />
+                            <ComboBox x:Name="companyCheckBox"
+                                      IsEnabled="{Binding EnableInvoice}"
+                                      SelectedIndex="{Binding InvoiceInfo.SelectedBusinessIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                      SelectionChanged="updatePaymentProofMethodComponent">
+                                <ComboBoxItem>미지정</ComboBoxItem>
+                                <ComboBoxItem>일이삼사</ComboBoxItem>
+                                <ComboBoxItem>대미기프트</ComboBoxItem>
+                            </ComboBox>
                         </StackPanel>
                         <Frame Height="2" Margin="0,12,0,0" Background="DarkGray" />
                         <StackPanel x:Name="cardPanel">
-                            <RadioButtons x:Name="cardRadioButtons" Margin="0,4,0,0" MaxColumns="1" SelectedIndex="0" SelectionChanged="updatePaymentProofMethodComponent">
-                                <x:String>비씨카드 결제</x:String>
-                                <x:String>나이스페이 결제</x:String>
+                            <RadioButtons x:Name="cardRadioButtons" Margin="0,4,0,0"
+                                          IsEnabled="{Binding EnableCard}"
+                                          MaxColumns="1"
+                                          SelectedIndex="{Binding CardInfo.SelectedCardTypeIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                          SelectionChanged="updatePaymentProofMethodComponent">
+                                <RadioButtons.Items>
+                                    <x:String>비씨카드 결제</x:String>
+                                    <x:String>나이스페이 결제</x:String>
+                                </RadioButtons.Items>
                             </RadioButtons>
                         </StackPanel>
                     </StackPanel>

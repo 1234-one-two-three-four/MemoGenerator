@@ -1,3 +1,4 @@
+using MemoGenerator.Model.MemoGenerating;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -36,6 +37,7 @@ namespace MemoGenerator
         private string emailComponent = "";
 
         private TaxCalculatingModel taxCalculatingModel = new TaxCalculatingModel();
+        private PaymentProofModel paymentProofModel = new PaymentProofModel();
 
         public MainWindow()
         {
@@ -65,6 +67,7 @@ namespace MemoGenerator
             this.AppWindow.SetIcon("C:\\Users\\y\\Desktop\\Visual Studio\\Projects\\MemoGenerator\\MemoGenerator\\Assets\\default-icon.ico");
 
             taxCalculatorPanel.DataContext = taxCalculatingModel;
+            paymentProofStackPanel.DataContext = paymentProofModel;
 
             disableDeductionGroup();
         }
@@ -151,113 +154,8 @@ namespace MemoGenerator
             // 함께사는 세상 옵션 추가
             // 분할 발행 기능
 
-            List<Control> invoicePanelControls = new List<Control>();
-            List<Control> cardPanelControls = new List<Control>();
-
-            retrieveAllChildControls(invoicePanel, invoicePanelControls);
-            retrieveAllChildControls(cardPanel, cardPanelControls);
-
-            switch (paymentProofTypeRadioButton.SelectedIndex)
-            {
-                case 0:
-                    foreach (var control in invoicePanelControls) { control.IsEnabled = true; }
-                    foreach (var control in cardPanelControls) { control.IsEnabled = false; }
-                    updatePaymentProofMethodComponentForInvoice();
-                    break;
-                case 1:
-                    foreach (var control in invoicePanelControls) { control.IsEnabled = false; }
-                    foreach (var control in cardPanelControls) { control.IsEnabled = true; }
-                    updatePaymentProofMethodComponentForCard();
-                    break;
-            }
-
+            paymentProofMethodComponent = paymentProofModel.memoComponent;
             updateMemoTextBlock();
-        }
-
-        private void updatePaymentProofMethodComponentForInvoice()
-        {
-            invoiceDateErrorTextBox.Visibility = Visibility.Collapsed;
-            List<String> elements = new List<string>();
-
-            if (DateTime.TryParseExact(invoiceDateTextBox.Text, "MMdd", null, System.Globalization.DateTimeStyles.None, out var date))
-            {
-                elements.Add($"{date.ToString("MM'/'dd")}일자");
-            }
-            else if (!String.IsNullOrEmpty(invoiceDateTextBox.Text))
-            {
-                invoiceDateErrorTextBox.Visibility = Visibility.Visible;
-            }
-
-            if (companyCheckBox.IsChecked == true)
-            {
-                elements.Add("대미");
-            }
-
-            if (taxInvoiceCheckBox.IsChecked == true && transactionStatementCheckBox.IsChecked == true)
-            {
-                invoiceTypeRadioButtons.IsEnabled = true;
-                switch (invoiceTypeRadioButtons.SelectedIndex)
-                {
-                    case 0:
-                        elements.Add("세금계산서/명세서");
-                        break;
-                    case 1:
-                        elements.Add("면세계산서/명세서");
-                        break;
-                }
-            }
-            else if (taxInvoiceCheckBox.IsChecked == true)
-            {
-                invoiceTypeRadioButtons.IsEnabled = true;
-                switch (invoiceTypeRadioButtons.SelectedIndex)
-                {
-                    case 0:
-                        elements.Add("세금계산서");
-                        break;
-                    case 1:
-                        elements.Add("면세계산서");
-                        break;
-                }
-            }
-            else if (transactionStatementCheckBox.IsChecked == true)
-            {
-                invoiceTypeRadioButtons.IsEnabled = false;
-                elements.Add("명세서");
-            }
-            else
-            {
-                invoiceTypeRadioButtons.IsEnabled = false;
-                elements.Clear();
-            }
-
-            if (elements.Count > 0)
-            {
-                elements.Add("발행");
-            }
-
-            paymentProofMethodComponent = String.Join(" ", elements);
-        }
-
-        private void updatePaymentProofMethodComponentForCard()
-        {
-            List<String> elements = new List<string>();
-
-            switch (cardRadioButtons.SelectedIndex)
-            {
-                case 0:
-                    elements.Add("비씨카드");
-                    break;
-                case 1:
-                    elements.Add("나이스페이");
-                    break;
-            }
-
-            if (elements.Count > 0)
-            {
-                elements.Add("결제");
-            }
-
-            paymentProofMethodComponent = String.Join(" ", elements);
         }
 
         private void updateDocumentsDeliveryRouteComponent(object sender, RoutedEventArgs e)
