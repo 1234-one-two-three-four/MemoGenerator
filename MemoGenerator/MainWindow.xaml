@@ -106,21 +106,25 @@
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Margin="0,-10,0,0" Orientation="Vertical">
-                    <TextBlock Margin="10,11,0,10" VerticalAlignment="Center" FontWeight="Bold" Text="서류" />
+                <StackPanel x:Name="proofDocumentStackPanel" Margin="0,-10,0,0" Orientation="Vertical">
+                    <TextBlock Margin="10,11,0,10" VerticalAlignment="Center" FontWeight="Bold" Text="증빙 서류" />
                     <StackPanel Orientation="Vertical" Spacing="26">
                         <StackPanel Padding="10" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#F6F6F6" BorderBrush="DarkGray"
                                     BorderThickness="1" CornerRadius="10" Orientation="Vertical">
                             <TextBlock Margin="4" FontWeight="Normal" Text="발송 경로" />
-                            <CheckBox x:Name="sendingEmailCheckBox" Click="updateDocumentsDeliveryRouteComponent" Content="메일" />
-                            <CheckBox x:Name="sendingRegisteredCheckBox" Click="updateDocumentsDeliveryRouteComponent" Content="등기" />
-                            <TextBox x:Name="documentListTextBox" Width="200" Margin="4" Header="상세 목록" PlaceholderForeground="LightGray"
-                                     PlaceholderText="4대보험완납증명서, ..." TextChanged="updateDocumentsDeliveryRouteComponent" />
-                        </StackPanel>
-                        <StackPanel Padding="10" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#F6F6F6" BorderBrush="DarkGray"
-                                    BorderThickness="1" CornerRadius="10" Orientation="Vertical">
-                            <TextBox x:Name="emailTextBox" Width="200" Margin="4" HorizontalAlignment="Left" Header="발송 이메일"
-                                     PlaceholderForeground="LightGray" PlaceholderText="example@email.com" TextChanged="updateEmailComponent" />
+                            <CheckBox x:Name="sendingEmailCheckBox" Click="updateDocumentsDeliveryRouteComponent" Content="메일"
+                                      IsChecked="{Binding DeliversByEmail, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            <TextBox x:Name="emailTextBox" Width="200" Margin="4" HorizontalAlignment="Left"
+                                     IsEnabled="{Binding DeliversByEmail}"
+                                     PlaceholderForeground="LightGray" PlaceholderText="example@email.com"
+                                     Text="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextChanged="updateDocumentsDeliveryRouteComponent" />
+                            <CheckBox x:Name="sendingRegisteredCheckBox" Click="updateDocumentsDeliveryRouteComponent" Content="등기"
+                                      IsChecked="{Binding DeliversByRegisteredMail, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            <TextBox x:Name="documentListTextBox" Width="200" Margin="4,14,4,4" Header="상세 목록" PlaceholderForeground="LightGray"
+                                     PlaceholderText="4대보험완납증명서, ..."
+                                     Text="{Binding DetailedDocumentList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     TextChanged="updateDocumentsDeliveryRouteComponent" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

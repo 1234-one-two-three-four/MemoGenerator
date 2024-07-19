@@ -34,10 +34,10 @@ namespace MemoGenerator
         private string identifyingComponent = "";
         private string paymentProofMethodComponent = "";
         private string documentsDeliveryRouteComponent = "";
-        private string emailComponent = "";
 
         private TaxCalculatingModel taxCalculatingModel = new TaxCalculatingModel();
         private PaymentProofModel paymentProofModel = new PaymentProofModel();
+        private ProofDocumentModel proofDocumentModel = new ProofDocumentModel();
 
         public MainWindow()
         {
@@ -68,6 +68,7 @@ namespace MemoGenerator
 
             taxCalculatorPanel.DataContext = taxCalculatingModel;
             paymentProofStackPanel.DataContext = paymentProofModel;
+            proofDocumentStackPanel.DataContext = proofDocumentModel;
 
             disableDeductionGroup();
         }
@@ -105,11 +106,6 @@ namespace MemoGenerator
             }
 
             string text = String.Join("-", components);
-
-            if (!String.IsNullOrEmpty(emailComponent))
-            {
-                text += $" {emailComponent}";
-            }
 
             memoTextBox.Text = text;
         }
@@ -160,39 +156,7 @@ namespace MemoGenerator
 
         private void updateDocumentsDeliveryRouteComponent(object sender, RoutedEventArgs e)
         {
-            List<String> elements = new List<string>();
-
-            string documentList = "";
-            if (!String.IsNullOrEmpty(documentListTextBox.Text))
-            {
-                documentList = $"({documentListTextBox.Text})";
-            }
-
-            if (sendingEmailCheckBox.IsChecked == true && sendingRegisteredCheckBox.IsChecked == true)
-            {
-                elements.Add($"서류{documentList} 메일/등기");
-            }
-            else if (sendingEmailCheckBox.IsChecked == true)
-            {
-                elements.Add($"서류{documentList} 메일");
-            }
-            else if (sendingRegisteredCheckBox.IsChecked == true)
-            {
-                elements.Add($"서류{documentList} 등기");
-            }
-
-            if (elements.Count > 0)
-            {
-                elements.Add("발송");
-            }
-
-            documentsDeliveryRouteComponent = String.Join(" ", elements);
-            updateMemoTextBlock();
-        }
-
-        private void updateEmailComponent(object sender, RoutedEventArgs e)
-        {
-            emailComponent = emailTextBox.Text;
+            documentsDeliveryRouteComponent = proofDocumentModel.memoComponent;
             updateMemoTextBlock();
         }
 

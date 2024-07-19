@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MemoGenerator.Model
-{
 #nullable enable
 
+namespace MemoGenerator.Model
+{
     class BusinessInfo
     {
         internal BusinessInfo(string name, string? memoText)
@@ -28,6 +28,6 @@ namespace MemoGenerator.Model
             });
         }
     }
+}
 
 #nullable disable
-}
