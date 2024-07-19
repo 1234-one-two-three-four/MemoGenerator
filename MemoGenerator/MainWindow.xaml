@@ -122,9 +122,13 @@
                             <CheckBox x:Name="sendingRegisteredCheckBox" Click="updateDocumentsDeliveryRouteComponent" Content="등기"
                                       IsChecked="{Binding DeliversByRegisteredMail, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                             <TextBox x:Name="documentListTextBox" Width="200" Margin="4,14,4,4" Header="상세 목록" PlaceholderForeground="LightGray"
-                                     PlaceholderText="4대보험완납증명서, ..."
+                                     PlaceholderText="승낙서, 각서, ..."
                                      Text="{Binding DetailedDocumentList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                      TextChanged="updateDocumentsDeliveryRouteComponent" />
+                            <CheckBox Margin="10,0,0,0" Click="updateDocumentsDeliveryRouteComponent" Content="4대보험완납증명서"
+                                      IsChecked="{Binding ChecksCertificateOfInsurancePayment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            <CheckBox Margin="10,0,0,0" Click="updateDocumentsDeliveryRouteComponent" Content="카드영수증"
+                                      IsChecked="{Binding ChecksReceiptOfCard, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
