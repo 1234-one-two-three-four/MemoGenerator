@@ -78,17 +78,25 @@
                             <CheckBox x:Name="transactionStatementCheckBox" Click="updatePaymentProofMethodComponent" Content="거래명세서"
                                       IsChecked="{Binding InvoiceInfo.IncludesTransactionSpecification, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       IsEnabled="{Binding EnableInvoice}" />
-                            <TextBlock Margin="10" FontWeight="Bold"
+                            <StackPanel Margin="4" Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center" FontWeight="Bold"
+                                           Foreground="{Binding InvoiceHeaderColor}"
+                                           Text="사업자" />
+                                <ComboBox x:Name="companyCheckBox" Margin="10,2,0,0"
+                                          IsEnabled="{Binding EnableInvoice}"
+                                          SelectedIndex="{Binding InvoiceInfo.SelectedBusinessIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                          SelectionChanged="updatePaymentProofMethodComponent">
+                                    <ComboBoxItem>미지정</ComboBoxItem>
+                                    <ComboBoxItem>일이삼사</ComboBoxItem>
+                                    <ComboBoxItem>대미기프트</ComboBoxItem>
+                                </ComboBox>
+                            </StackPanel>
+                            <TextBlock Margin="4" VerticalAlignment="Center" FontWeight="Bold"
                                        Foreground="{Binding InvoiceHeaderColor}"
-                                       Text="사업자" />
-                            <ComboBox x:Name="companyCheckBox"
-                                      IsEnabled="{Binding EnableInvoice}"
-                                      SelectedIndex="{Binding InvoiceInfo.SelectedBusinessIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                      SelectionChanged="updatePaymentProofMethodComponent">
-                                <ComboBoxItem>미지정</ComboBoxItem>
-                                <ComboBoxItem>일이삼사</ComboBoxItem>
-                                <ComboBoxItem>대미기프트</ComboBoxItem>
-                            </ComboBox>
+                                       Text="옵션" />
+                            <CheckBox Margin="4,0,0,0" Click="updatePaymentProofMethodComponent" Content="별도견적서"
+                                      IsChecked="{Binding InvoiceInfo.ExistsSeparateQuotation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                      IsEnabled="{Binding EnableInvoice}" />
                         </StackPanel>
                         <Frame Height="2" Margin="0,12,0,0" Background="DarkGray" />
                         <StackPanel x:Name="cardPanel">

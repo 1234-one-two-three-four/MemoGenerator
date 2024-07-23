@@ -30,7 +30,7 @@ namespace MemoGenerator.Model.MemoGenerating
         {
             get
             {
-                if (date is DateTime unwrapped) { return (DateTime.Today.Day == unwrapped.Day) && DateTime.Today.Month== unwrapped.Month; }
+                if (date is DateTime unwrapped) { return (DateTime.Today.Day == unwrapped.Day) && DateTime.Today.Month == unwrapped.Month; }
                 else { return false; }
             }
         }
@@ -39,6 +39,7 @@ namespace MemoGenerator.Model.MemoGenerating
         internal bool includesTransactionSpecification;
         private readonly List<BusinessInfo> businessList;
         internal BusinessInfo selectedBusiness;
+        internal bool existsSeparateQuotation;
 
         internal InvoiceInfo()
         {
@@ -48,6 +49,7 @@ namespace MemoGenerator.Model.MemoGenerating
             this.includesTransactionSpecification = false;
             this.businessList = GlobalSettings.Instance.businessInfos;
             this.selectedBusiness = businessList.First();
+            this.existsSeparateQuotation = false;
         }
 
         // Binding
@@ -94,7 +96,8 @@ namespace MemoGenerator.Model.MemoGenerating
         public bool IncludesInvoice
         {
             get => includesInvoice;
-            set {
+            set
+            {
                 includesInvoice = value;
                 if (owner.TryGetTarget(out var target))
                 {
@@ -119,6 +122,12 @@ namespace MemoGenerator.Model.MemoGenerating
         {
             get => businessList.IndexOf(selectedBusiness);
             set { selectedBusiness = businessList[value]; }
+        }
+
+        public bool ExistsSeparateQuotation
+        {
+            get => existsSeparateQuotation;
+            set { existsSeparateQuotation = value; }
         }
     }
 
@@ -191,6 +200,11 @@ namespace MemoGenerator.Model.MemoGenerating
                             elements.Add(businessName);
                         }
 
+                        if (InvoiceInfo.existsSeparateQuotation)
+                        {
+                            elements.Add("별도견적서");
+                        }
+
                         if (invoiceInfo.includesInvoice && invoiceInfo.includesTransactionSpecification)
                         {
                             switch (invoiceInfo.selectedInvoiceType)
@@ -253,7 +267,8 @@ namespace MemoGenerator.Model.MemoGenerating
         public int SelectedPaymentProofTypeIndex
         {
             get => (int)paymentProofType;
-            set { 
+            set
+            {
                 paymentProofType = (PaymentProofType)value;
                 propertyChanged("EnableInvoice");
                 propertyChanged("EnableInvoiceTypeRadioButtons");
@@ -276,7 +291,8 @@ namespace MemoGenerator.Model.MemoGenerating
         {
             get
             {
-                switch (paymentProofType) {
+                switch (paymentProofType)
+                {
                     case PaymentProofType.invoice:
                         return new SolidColorBrush(Colors.Black);
                     case PaymentProofType.card:
