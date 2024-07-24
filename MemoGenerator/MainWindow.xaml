@@ -17,7 +17,7 @@
         <StackPanel x:Name="memoGeneratorPanel" Padding="10" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="4"
                     Orientation="Vertical">
             <StackPanel Margin="10" HorizontalAlignment="Center" Orientation="Horizontal">
-                <TextBox x:Name="memoTextBox" MinWidth="680" Margin="10" VerticalAlignment="Center" Background="Beige"
+                <TextBox x:Name="memoTextBox" Width="680" Margin="10" VerticalAlignment="Center" Background="Beige"
                          FontFamily="맑은 고딕" FontSize="16" Foreground="Black" IsReadOnly="True" Text="" />
                 <Button x:Name="copyButton" Margin="4" Background="LightSteelBlue" Click="copyButton_Click">
                     복사
