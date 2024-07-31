@@ -252,6 +252,11 @@ namespace MemoGenerator.Model.MemoGenerating
 
         internal PaymentProofModel()
         {
+            initializePaymentProofModel();
+        }
+        
+        internal void initializePaymentProofModel()
+        {
             this.paymentProofType = PaymentProofType.invoice;
             this.invoiceInfo = new InvoiceInfo();
             invoiceInfo.owner = new WeakReference<PaymentProofModel>(this);

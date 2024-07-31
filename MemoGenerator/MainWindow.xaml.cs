@@ -167,6 +167,18 @@ namespace MemoGenerator
             disableDeductionGroup();
         }
 
+        private void memoResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            dateTextBox.Text = "";
+            amountTextBox.Text = "";
+            paymentProofModel.initializePaymentProofModel();
+            paymentProofModel.propertyChanged(null);
+            proofDocumentModel.initializeProofDocumentModel();
+            proofDocumentModel.propertyChanged(null);
+            updatePaymentProofMethodComponent(null, null);
+            updateDocumentsDeliveryRouteComponent(null, null);
+        }
+
         private void deductionCheckBox_Click(object sender, RoutedEventArgs e)
         {
             if (deductionCheckBox.IsChecked == true) { enableDeductionGroup(); }

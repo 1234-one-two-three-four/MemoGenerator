@@ -141,6 +141,10 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
+            <Button x:Name="memoResetButton" Margin="0,-40,0,0" HorizontalAlignment="Right" Background="Red" Click="memoResetButton_Click"
+                    Foreground="White">
+                초기화
+            </Button>
         </StackPanel>
 
         <!--  세액 계산  -->
