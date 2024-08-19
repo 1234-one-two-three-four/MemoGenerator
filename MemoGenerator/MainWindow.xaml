@@ -137,6 +137,10 @@
                                       IsChecked="{Binding ChecksCertificateOfInsurancePayment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                             <CheckBox Margin="10,0,0,0" Click="updateDocumentsDeliveryRouteComponent" Content="카드영수증"
                                       IsChecked="{Binding ChecksReceiptOfCard, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            <CheckBox Margin="10,0,0,0" Click="updateDocumentsDeliveryRouteComponent" Content="계약 서류"
+                                      IsChecked="{Binding ChecksContractDocuments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            <CheckBox Margin="10,0,0,0" Click="updateDocumentsDeliveryRouteComponent" Content="대금 지급 서류"
+                                      IsChecked="{Binding ChecksPaymentDocuments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

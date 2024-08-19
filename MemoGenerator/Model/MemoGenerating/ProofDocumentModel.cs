@@ -19,6 +19,8 @@ namespace MemoGenerator.Model.MemoGenerating
     {
         certificateOfInsurancePayment, // 4대보험완납증명서
         receiptOfCard, // 카드 영수증
+        contractDocuments, // 계약 서류
+        paymentDocuments, // 대금 지급 서류
     }
 
     static class PreDefinedDocumentExtensions
@@ -31,6 +33,10 @@ namespace MemoGenerator.Model.MemoGenerating
                     return "4대보험완납증명서";
                 case PreDefinedDocument.receiptOfCard:
                     return "카드영수증";
+                case PreDefinedDocument.contractDocuments:
+                    return "계약 서류";
+                case PreDefinedDocument.paymentDocuments:
+                    return "대금 지급 서류";
                 default:
                     return ""; // 바인딩 과정에서 -1값이 들어오는 현상이 있음
             }
@@ -150,6 +156,8 @@ namespace MemoGenerator.Model.MemoGenerating
 
                 propertyChanged("ChecksCertificateOfInsurancePayment");
                 propertyChanged("ChecksReceiptOfCard");
+                propertyChanged("ChecksContractDocuments");
+                propertyChanged("ChecksPaymentDocuments");
             }
         }
 
@@ -163,7 +171,10 @@ namespace MemoGenerator.Model.MemoGenerating
                 detailedDocumentList = null;
 
                 propertyChanged("DetailedDocumentList");
+                propertyChanged("ChecksCertificateOfInsurancePayment");
                 propertyChanged("ChecksReceiptOfCard");
+                propertyChanged("ChecksContractDocuments");
+                propertyChanged("ChecksPaymentDocuments");
             }
         }
 
@@ -178,6 +189,42 @@ namespace MemoGenerator.Model.MemoGenerating
 
                 propertyChanged("DetailedDocumentList");
                 propertyChanged("ChecksCertificateOfInsurancePayment");
+                propertyChanged("ChecksReceiptOfCard");
+                propertyChanged("ChecksContractDocuments");
+                propertyChanged("ChecksPaymentDocuments");
+            }
+        }
+        public bool ChecksContractDocuments
+        {
+            get => preDefinedDocumentSelections[PreDefinedDocument.contractDocuments];
+            set
+            {
+                disableAllPreDefinedDocumentSelections();
+                preDefinedDocumentSelections[PreDefinedDocument.contractDocuments] = value;
+                detailedDocumentList = null;
+
+                propertyChanged("DetailedDocumentList");
+                propertyChanged("ChecksCertificateOfInsurancePayment");
+                propertyChanged("ChecksReceiptOfCard");
+                propertyChanged("ChecksContractDocuments");
+                propertyChanged("ChecksPaymentDocuments");
+            }
+        }
+
+        public bool ChecksPaymentDocuments
+        {
+            get => preDefinedDocumentSelections[PreDefinedDocument.paymentDocuments];
+            set
+            {
+                disableAllPreDefinedDocumentSelections();
+                preDefinedDocumentSelections[PreDefinedDocument.paymentDocuments] = value;
+                detailedDocumentList = null;
+
+                propertyChanged("DetailedDocumentList");
+                propertyChanged("ChecksCertificateOfInsurancePayment");
+                propertyChanged("ChecksReceiptOfCard");
+                propertyChanged("ChecksContractDocuments");
+                propertyChanged("ChecksPaymentDocuments");
             }
         }
 
