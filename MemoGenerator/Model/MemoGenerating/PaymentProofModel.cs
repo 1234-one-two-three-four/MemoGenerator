@@ -146,7 +146,7 @@ namespace MemoGenerator.Model.MemoGenerating
                 case CardType.bc:
                     return "BC카드";
                 case CardType.nicepay:
-                    return "나이스페이";
+                    return "나이스페이 카드";
                 default:
                     return ""; // 바인딩 과정에서 -1값이 들어오는 현상이 있음
             }

@@ -107,7 +107,7 @@
                                           SelectionChanged="updatePaymentProofMethodComponent">
                                 <RadioButtons.Items>
                                     <x:String>비씨카드 결제</x:String>
-                                    <x:String>나이스페이 결제</x:String>
+                                    <x:String>나이스페이 카드 결제</x:String>
                                 </RadioButtons.Items>
                             </RadioButtons>
                         </StackPanel>
