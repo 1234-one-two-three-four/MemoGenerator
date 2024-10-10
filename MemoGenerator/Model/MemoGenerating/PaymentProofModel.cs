@@ -238,11 +238,11 @@ namespace MemoGenerator.Model.MemoGenerating
                             elements.Clear();
                         }
 
-                        if (elements.Count > 0) { elements.Add("발행"); }
+                        if (elements.Count > 0) { elements.Add("발행 완료"); }
                         break;
                     case PaymentProofType.card:
                         elements.Add(cardInfo.selectedCardType.name());
-                        elements.Add("결제");
+                        elements.Add("결제 완료");
                         break;
                 }
 
