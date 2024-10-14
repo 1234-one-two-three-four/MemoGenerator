@@ -46,7 +46,6 @@ namespace MemoGenerator.Model.MemoGenerating
     sealed class ProofDocumentModel : BaseINotifyPropertyChanged
     {
         private Dictionary<DeliveryRoute, bool> deliveryRouteSelections;
-        private string? emailAddress;
         private string? detailedDocumentList;
         private Dictionary<PreDefinedDocument, bool> preDefinedDocumentSelections;
         internal string memoComponent
@@ -89,7 +88,6 @@ namespace MemoGenerator.Model.MemoGenerating
                 if (deliversDocument)
                 {
                     elements.Add("발송");
-                    if (emailAddress is string) elements.Add(emailAddress);
                 }
 
                 return String.Join(" ", elements);
@@ -108,7 +106,6 @@ namespace MemoGenerator.Model.MemoGenerating
             this.deliveryRouteSelections = new Dictionary<DeliveryRoute, bool>();
             deliveryRouteSelections.Add(DeliveryRoute.email, false);
             deliveryRouteSelections.Add(DeliveryRoute.registeredMail, false);
-            this.emailAddress = null;
             this.detailedDocumentList = null;
             this.preDefinedDocumentSelections = new Dictionary<PreDefinedDocument, bool>();
             disableAllPreDefinedDocumentSelections();
@@ -132,16 +129,6 @@ namespace MemoGenerator.Model.MemoGenerating
             set
             {
                 deliveryRouteSelections[DeliveryRoute.registeredMail] = value;
-            }
-        }
-
-        public string EmailAddress
-        {
-            get => emailAddress ?? "";
-            set
-            {
-                if (String.IsNullOrEmpty(value)) emailAddress = null;
-                else emailAddress = value;
             }
         }
 

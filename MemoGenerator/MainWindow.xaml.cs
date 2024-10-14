@@ -38,6 +38,7 @@ namespace MemoGenerator
         private TaxCalculatingModel taxCalculatingModel = new TaxCalculatingModel();
         private PaymentProofModel paymentProofModel = new PaymentProofModel();
         private ProofDocumentModel proofDocumentModel = new ProofDocumentModel();
+        private RecipientModel recipientModel = new RecipientModel();
 
         public MainWindow()
         {
@@ -69,6 +70,7 @@ namespace MemoGenerator
             taxCalculatorPanel.DataContext = taxCalculatingModel;
             paymentProofStackPanel.DataContext = paymentProofModel;
             proofDocumentStackPanel.DataContext = proofDocumentModel;
+            recipientStackPanel.DataContext = recipientModel;
 
             disableDeductionGroup();
         }
@@ -86,7 +88,7 @@ namespace MemoGenerator
             panels[tag].Visibility = Visibility.Visible;
         }
 
-        private void updateMemoTextBlock()
+        private void updateMemoTextBlock(object sender, RoutedEventArgs e)
         {
             const char componentPrefix = '[';
             const char componentSuffix = ']';
@@ -106,6 +108,11 @@ namespace MemoGenerator
             }
 
             string text = String.Join("-", components);
+
+            if (!String.IsNullOrEmpty(recipientModel.memoComponent))
+            {
+                text += $" {recipientModel.memoComponent}";
+            }
 
             memoTextBox.Text = text;
         }
@@ -142,7 +149,7 @@ namespace MemoGenerator
             }
 
             identifyingComponent = String.Join(" ", elements);
-            updateMemoTextBlock();
+            updateMemoTextBlock(null, null);
         }
 
         private void updatePaymentProofMethodComponent(object sender, RoutedEventArgs e)
@@ -151,13 +158,13 @@ namespace MemoGenerator
             // 분할 발행 기능
 
             paymentProofMethodComponent = paymentProofModel.memoComponent;
-            updateMemoTextBlock();
+            updateMemoTextBlock(null, null);
         }
 
         private void updateDocumentsDeliveryRouteComponent(object sender, RoutedEventArgs e)
         {
             documentsDeliveryRouteComponent = proofDocumentModel.memoComponent;
-            updateMemoTextBlock();
+            updateMemoTextBlock(null, null);
         }
 
         private void resetButton_Click(object sender, RoutedEventArgs e)
@@ -175,6 +182,8 @@ namespace MemoGenerator
             paymentProofModel.propertyChanged(null);
             proofDocumentModel.initializeProofDocumentModel();
             proofDocumentModel.propertyChanged(null);
+            recipientModel.initializeRecipientModel();
+            recipientModel.propertyChanged(null);
             updatePaymentProofMethodComponent(null, null);
             updateDocumentsDeliveryRouteComponent(null, null);
         }
