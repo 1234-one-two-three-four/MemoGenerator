@@ -7,14 +7,18 @@ using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
+using Windows.Storage.Pickers;
 using Windows.UI;
 using Windows.UI.Text;
 
@@ -40,11 +44,17 @@ namespace MemoGenerator
         private ProofDocumentModel proofDocumentModel = new ProofDocumentModel();
         private RecipientModel recipientModel = new RecipientModel();
 
+        private string selectedFolderPath = "";
+
         public MainWindow()
         {
             this.InitializeComponent();
 
-            panels = new StackPanel[] { memoGeneratorPanel, taxCalculatorPanel };
+            panels = new StackPanel[] {
+                memoGeneratorPanel,
+                taxCalculatorPanel,
+                etcPanel,
+            };
             foreach (var panel in panels)
             {
                 panel.Visibility = Visibility.Collapsed;
@@ -275,6 +285,39 @@ namespace MemoGenerator
         private void deductingTargetComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             placeItemsStrikethrough();
+        }
+
+        private void didTapFolderCreatingButton(object sender, RoutedEventArgs e)
+        {
+            DateTime today = DateTime.Now;
+            string todayFolderName = today.ToString("yyMMdd");
+            string institutionName = folderNameTextBox.Text;
+            string documentsDirectory = selectedFolderPath;
+            string institutionDirectory = $"{documentsDirectory}\\{todayFolderName}\\{institutionName}";
+
+            Directory.CreateDirectory(institutionDirectory);
+            try
+            {
+                Process.Start("explorer.exe", institutionDirectory);
+            }
+            catch (Win32Exception win32Exception)
+            {
+                Debug.Print(win32Exception.Message);
+            }
+            folderNameTextBox.Text = "";
+        }
+
+        private async void didTapFolderSelectingButton(object sender, RoutedEventArgs e)
+        {
+            var window = new Microsoft.UI.Xaml.Window();
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+            var folderPicker = new Windows.Storage.Pickers.FolderPicker();
+            folderPicker.FileTypeFilter.Add("*");
+            WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hwnd);
+            var folder = await folderPicker.PickSingleFolderAsync();
+
+            selectedFolderTextBlock.Text = folder.Path;
+            selectedFolderPath = folder.Path;
         }
     }
 }
