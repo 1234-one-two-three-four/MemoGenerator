@@ -36,8 +36,6 @@ namespace MemoGenerator
         StackPanel[] panels;
 
         private string identifyingComponent = "";
-        private string paymentProofMethodComponent = "";
-        private string documentsDeliveryRouteComponent = "";
 
         private TaxCalculatingModel taxCalculatingModel = new TaxCalculatingModel();
         private PaymentProofModel paymentProofModel = new PaymentProofModel();
@@ -108,13 +106,13 @@ namespace MemoGenerator
             {
                 components.Add($"{componentPrefix}{identifyingComponent}{componentSuffix}");
             }
-            if (!String.IsNullOrEmpty(paymentProofMethodComponent))
+            if (!String.IsNullOrEmpty(paymentProofModel.memoComponent))
             {
-                components.Add($"{componentPrefix}{paymentProofMethodComponent}{componentSuffix}");
+                components.Add($"{componentPrefix}{paymentProofModel.memoComponent}{componentSuffix}");
             }
-            if (!String.IsNullOrEmpty(documentsDeliveryRouteComponent))
+            if (!String.IsNullOrEmpty(proofDocumentModel.memoComponent))
             {
-                components.Add($"{componentPrefix}{documentsDeliveryRouteComponent}{componentSuffix}");
+                components.Add($"{componentPrefix}{proofDocumentModel.memoComponent}{componentSuffix}");
             }
 
             string text = String.Join("-", components);
@@ -162,21 +160,6 @@ namespace MemoGenerator
             updateMemoTextBlock(null, null);
         }
 
-        private void updatePaymentProofMethodComponent(object sender, RoutedEventArgs e)
-        {
-            // 함께사는 세상 옵션 추가
-            // 분할 발행 기능
-
-            paymentProofMethodComponent = paymentProofModel.memoComponent;
-            updateMemoTextBlock(null, null);
-        }
-
-        private void updateDocumentsDeliveryRouteComponent(object sender, RoutedEventArgs e)
-        {
-            documentsDeliveryRouteComponent = proofDocumentModel.memoComponent;
-            updateMemoTextBlock(null, null);
-        }
-
         private void resetButton_Click(object sender, RoutedEventArgs e)
         {
             taxCalculatingModel.initializeItemInfos();
@@ -194,8 +177,6 @@ namespace MemoGenerator
             proofDocumentModel.propertyChanged(null);
             recipientModel.initializeRecipientModel();
             recipientModel.propertyChanged(null);
-            updatePaymentProofMethodComponent(null, null);
-            updateDocumentsDeliveryRouteComponent(null, null);
         }
 
         private void deductionCheckBox_Click(object sender, RoutedEventArgs e)

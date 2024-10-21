@@ -176,6 +176,8 @@ namespace MemoGenerator.Model.MemoGenerating
         }
     }
 
+    // 함께사는 세상 옵션 추가
+    // 분할 발행 기능
     sealed class PaymentProofModel : BaseINotifyPropertyChanged
     {
         private PaymentProofType paymentProofType;
