@@ -272,17 +272,22 @@ namespace MemoGenerator
         {
             DateTime today = DateTime.Now;
             string todayFolderName = today.ToString("yyMMdd");
-            string institutionName = folderNameTextBox.Text;
-            string documentsDirectory = selectedFolderPath;
-            string institutionDirectory = $"{documentsDirectory}\\{todayFolderName}\\{institutionName}";
+            string enteredFolderName = folderNameTextBox.Text;
+            string[] invalidCharList = { "\\", "/", ":", "*", "?", "\"", "<", ">", "|" };
+            for (int i = 0; i < invalidCharList.Length; i++)
+            {
+                enteredFolderName = enteredFolderName.Replace(invalidCharList[i], "");
+            }
+            string institutionDirectory = $"{selectedFolderPath}\\{todayFolderName}\\{enteredFolderName}";
 
-            Directory.CreateDirectory(institutionDirectory);
             try
             {
+                Directory.CreateDirectory(institutionDirectory);
                 Process.Start("explorer.exe", institutionDirectory);
             }
             catch (Win32Exception win32Exception)
             {
+                // TODO: 오류 알림
                 Debug.Print(win32Exception.Message);
             }
             folderNameTextBox.Text = "";
