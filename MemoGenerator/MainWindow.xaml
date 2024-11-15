@@ -36,7 +36,9 @@
                             <TextBox x:Name="dateTextBox" Width="100" Margin="4" HorizontalAlignment="Left" Header="날짜"
                                      PlaceholderForeground="LightGray" PlaceholderText="240619" TextChanged="updateIdentifyingComponent" />
                             <TextBlock x:Name="dateErrorTextBox" Margin="4" FontSize="11" Foreground="Red" Text="날짜 오류" />
-                            <TextBox x:Name="amountTextBox" Width="180" Margin="4" HorizontalAlignment="Left" Header="금액"
+                            <TextBox x:Name="amountTextBox1" Width="180" Margin="4" HorizontalAlignment="Left" Header="금액1"
+                                     PlaceholderForeground="LightGray" PlaceholderText="금액을 입력하세요." TextChanged="updateIdentifyingComponent" />
+                            <TextBox x:Name="amountTextBox2" Width="180" Margin="4" HorizontalAlignment="Left" Header="금액2"
                                      PlaceholderForeground="LightGray" PlaceholderText="금액을 입력하세요." TextChanged="updateIdentifyingComponent" />
                         </StackPanel>
                     </StackPanel>

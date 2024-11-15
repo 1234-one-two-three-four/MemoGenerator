@@ -65,7 +65,7 @@ namespace MemoGenerator
             var appWindow = WindowUtil.GetAppWindow(this);
             appWindow.Title = "시간을 아껴줘용";
             WindowUtil.CenterToScreen(this);
-            appWindow.Resize(new SizeInt32 { Width = 1000, Height = 620 }); // 창 크기
+            appWindow.Resize(new SizeInt32 { Width = 1000, Height = 640 }); // 창 크기
             ((OverlappedPresenter)appWindow.Presenter).IsAlwaysOnTop = false;
             ((OverlappedPresenter)appWindow.Presenter).IsMaximizable = false; // 최대화 가능 여부
             ((OverlappedPresenter)appWindow.Presenter).IsResizable = false;
@@ -151,9 +151,13 @@ namespace MemoGenerator
                 dateErrorTextBox.Visibility = Visibility.Visible;
             }
 
-            if (Int32.TryParse(amountTextBox.Text, out int amount) && amount != 0)
+            if (Int32.TryParse(amountTextBox1.Text, out int amount1) && amount1 != 0)
             {
-                elements.Add(amount.ToString("C"));
+                elements.Add(amount1.ToString("C"));
+            }
+            if (Int32.TryParse(amountTextBox2.Text, out int amount2) && amount2 != 0)
+            {
+                elements.Add(amount2.ToString("C"));
             }
 
             identifyingComponent = String.Join(" ", elements);
@@ -170,7 +174,8 @@ namespace MemoGenerator
         private void memoResetButton_Click(object sender, RoutedEventArgs e)
         {
             dateTextBox.Text = "";
-            amountTextBox.Text = "";
+            amountTextBox1.Text = "";
+            amountTextBox2.Text = "";
             paymentProofModel.initializePaymentProofModel();
             paymentProofModel.propertyChanged(null);
             proofDocumentModel.initializeProofDocumentModel();
