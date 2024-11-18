@@ -151,17 +151,31 @@ namespace MemoGenerator
                 dateErrorTextBox.Visibility = Visibility.Visible;
             }
 
-            if (Int32.TryParse(amountTextBox1.Text, out int amount1) && amount1 != 0)
+            string trimmedText1 = trimSigns(amountTextBox1.Text);
+            if (Int32.TryParse(trimmedText1, out int amount1) && amount1 != 0)
             {
                 elements.Add(amount1.ToString("C"));
             }
-            if (Int32.TryParse(amountTextBox2.Text, out int amount2) && amount2 != 0)
+
+            string trimmedText2 = trimSigns(amountTextBox2.Text);
+            if (Int32.TryParse(trimmedText2, out int amount2) && amount2 != 0)
             {
                 elements.Add(amount2.ToString("C"));
             }
 
             identifyingComponent = String.Join(" ", elements);
             updateMemoTextBlock(null, null);
+        }
+
+        private string trimSigns(string numText)
+        {
+            string text = numText;
+            string[] signsToTrim = { ".", ",", "\\" };
+            foreach (string sign in signsToTrim)
+            {
+                text = text.Replace(sign, "");
+            }
+            return text;
         }
 
         private void resetButton_Click(object sender, RoutedEventArgs e)
